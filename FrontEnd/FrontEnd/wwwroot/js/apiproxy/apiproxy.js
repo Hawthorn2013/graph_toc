@@ -11,7 +11,10 @@ var apiproxy = (function() {
     };
 
     var entitiesList = [];
-    for (var entity in entities) {
+    for (var entityName in entities) {
+        var entity = {};
+        entity["name"] = entityName;
+        entity["url"] = entities[entityName].url;
         entitiesList.push(entity);
     }
 
