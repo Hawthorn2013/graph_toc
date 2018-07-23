@@ -51,13 +51,13 @@ function apiRequest(api, page, onSuccess) {
 // WIKIPEDIA PARSING ----------
 
 //Get the name of all pages linked to by a page
-function getSubPages(page,onSuccess) {
-  apiRequest("links",page,onSuccess);
+function getSubPages(page, onSuccess) {
+    onSuccess(apiproxy.getEntity(page)["relation_entities"]);
 }
 
 //Get the name of the wikipedia article for a query
 function getPageName(query,onSuccess) {
-  apiRequest("pagename",query,onSuccess);
+    onSuccess(query);
 }
 
 function getRandomName(onSuccess) {

@@ -40,7 +40,7 @@ function makeNetwork() {
 
 
 // Reset the network to be new each time.
-function resetNetwork(start) {
+function resetNetwork(start, url) {
   if (!initialized) makeNetwork();
   var startID = getNeutralId(start);
   startpages = [startID]; // Register the page as an origin node
@@ -54,7 +54,7 @@ function resetNetwork(start) {
   //Make a container
   nodes = new vis.DataSet([
     {id:startID, label:wordwrap(decodeURIComponent(start),20), value:2, level:0,
-     color:getColor(0), x:0, y:0, parent:startID} //Parent is self
+          color: getColor(0), x: 0, y: 0, parent: startID} //Parent is self
   ]);
   edges = new vis.DataSet();
   //Put the data in the container
@@ -64,10 +64,11 @@ function resetNetwork(start) {
 
 
 // Add a new start node to the map.
-function addStart(start, index) {
+function addStart(start, url) {
+    console.log(url);
   if (needsreset) {
     // Delete everything only for the first call to addStart by tracking needsreset
-    resetNetwork(start);
+      resetNetwork(start);
     needsreset = false;
     return;
 
@@ -76,7 +77,7 @@ function addStart(start, index) {
     startpages.push(startID);
     nodes.add([
       {id:startID, label:wordwrap(decodeURIComponent(start),20), value:2, level:0,
-      color:getColor(0), x:0, y:0, parent:startID} // Parent is self
+            color: getColor(0), x: 0, y: 0, parent: startID} // Parent is self
     ]);
   }
 }

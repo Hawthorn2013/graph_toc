@@ -51,81 +51,82 @@
 </head>
 
 <body>
-  <!-- The top bar -->
-  <div id="formbox" class="transparent-blur">
-    <button id="random" type=button title="Random article">
-      <i class="icon ion-shuffle"></i>
-    </button>
-    <button id="submit" type="button" title="Enter the name of a wikipedia page, then press 'Go'">
-      Go
-    </button>
-    <div id="input" class="commafield" data-placeholder="Wikipedia"> </div>
-  </div>
-
-  <!-- The buttons (about, github, etc) -->
-  <div id="buttons" class="button-container transparent-blur">
-    <button id="share" type="button" title="Share your graph">
-      <i class="icon ion-android-share"></i>
-    </button>
-    <button id="github" type="button" title="Visit Wikipedia Map on GitHub">
-      <i class="icon ion-social-github"></i>
-    </button>
-    <button id="about" type="button" title="Get help">
-      <i class="icon ion-help-circled"></i>
-    </button>
-  </div>
-
-  <!-- Will hold the network -->
-  <div id="container" class="fullscreen">
-    <!-- Welcome message -->
-    <div id="info">
-      <h1>Wikipedia Map</h1>
-      <p>A tool for visualizing the connections between Wikipedia pages by Luke Taylor</p>
-      <button id="tourinit" class="shepbtn">Take the tour</button>
+    <!-- The top bar -->
+    <div id="formbox" class="transparent-blur">
+        <button id="random" type=button title="Random article">
+            <i class="icon ion-shuffle"></i>
+        </button>
+        <button id="submit" type="button" title="Enter the name of a wikipedia page, then press 'Go'">
+            Go
+        </button>
+        <div id="input" class="commafield" data-placeholder="Wikipedia"> </div>
     </div>
-  </div>
+
+    <!-- The buttons (about, github, etc) -->
+    <div id="buttons" class="button-container transparent-blur">
+        <button id="share" type="button" title="Share your graph">
+            <i class="icon ion-android-share"></i>
+        </button>
+        <button id="github" type="button" title="Visit Wikipedia Map on GitHub">
+            <i class="icon ion-social-github"></i>
+        </button>
+        <button id="about" type="button" title="Get help">
+            <i class="icon ion-help-circled"></i>
+        </button>
+    </div>
+
+    <!-- Will hold the network -->
+    <div id="container" class="fullscreen">
+        <!-- Welcome message -->
+        <div id="info">
+            <h1>Wikipedia Map</h1>
+            <p>A tool for visualizing the connections between Wikipedia pages by Luke Taylor</p>
+            <button id="tourinit" class="shepbtn">Take the tour</button>
+        </div>
+    </div>
 
 
 
-  <!-- 3rd Party -->
-  <!-- Load vis.js (just Network) -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
-  <!-- Load clipboard.js -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"> </script>
-  <!-- Load Shepherd and Tether for the tour -->
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.3/js/tether.min.js"> </script>
-  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/js/shepherd.min.js"> </script>
+    <!-- 3rd Party -->
+    <!-- Load vis.js (just Network) -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"></script>
+    <!-- Load clipboard.js -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/1.5.12/clipboard.min.js"></script>
+    <!-- Load Shepherd and Tether for the tour -->
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.3.3/js/tether.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/shepherd/1.7.0/js/shepherd.min.js"></script>
 
-  <!-- My Stuff -->
-  <!-- Load API functions -->
-  <script type="text/javascript" src="./js/wikipedia-map/api.js"> </script>
-  <!-- Load helper functions -->
-  <script type="text/javascript" src="./js/wikipedia-map/helpers.js"> </script>
-  <!-- Load main functions -->
-  <script type="text/javascript" src="./js/wikipedia-map/main_functions.js"> </script>
-  <!-- Load code for all the user-facing tutorial+information stuff -->
-  <script type="text/javascript" src="./js/wikipedia-map/help.js"> </script>
-  <!-- Load the main script -->
-  <script type="text/javascript" src="./js/wikipedia-map/main.js"> </script>
-  <!-- Load serialization functions -->
-  <script type="text/javascript" src="./js/wikipedia-map/network_serialize.js"> </script>
-  <!-- Load bindings -->
-  <script type="text/javascript" src="./js/wikipedia-map/bindings.js"> </script>
-  <!-- Transform comma field -->
-  <script type="text/javascript" src="./js/wikipedia-map/commafield.js"> </script>
-  <!-- Load a saved graph if one was linked in the URL -->
-  <script type="text/javascript" src="./js/wikipedia-map/loadsaved.js"> </script>
-  <!-- Load micro-libraries for modals and progress bars -->
-  <script type="text/javascript" src="./js/wikipedia-map/modals.js"> </script>
-  <script type="text/javascript" src="./js/wikipedia-map/progress.js"> </script>
+    <!-- My Stuff -->
+    <script type="text/javascript" src="./js/apiproxy/apiproxy.js"></script>
+    <!-- Load API functions -->
+    <script type="text/javascript" src="./js/wikipedia-map/api.js"></script>
+    <!-- Load helper functions -->
+    <script type="text/javascript" src="./js/wikipedia-map/helpers.js"></script>
+    <!-- Load main functions -->
+    <script type="text/javascript" src="./js/wikipedia-map/main_functions.js"></script>
+    <!-- Load code for all the user-facing tutorial+information stuff -->
+    <script type="text/javascript" src="./js/wikipedia-map/help.js"></script>
+    <!-- Load the main script -->
+    <script type="text/javascript" src="./js/wikipedia-map/main.js"></script>
+    <!-- Load serialization functions -->
+    <script type="text/javascript" src="./js/wikipedia-map/network_serialize.js"></script>
+    <!-- Load bindings -->
+    <script type="text/javascript" src="./js/wikipedia-map/bindings.js"></script>
+    <!-- Transform comma field -->
+    <script type="text/javascript" src="./js/wikipedia-map/commafield.js"></script>
+    <!-- Load a saved graph if one was linked in the URL -->
+    <script type="text/javascript" src="./js/wikipedia-map/loadsaved.js"></script>
+    <!-- Load micro-libraries for modals and progress bars -->
+    <script type="text/javascript" src="./js/wikipedia-map/modals.js"></script>
+    <script type="text/javascript" src="./js/wikipedia-map/progress.js"></script>
 
-  <script>
-    // Run events that need to happen on initialization.
-    window.onload = function () {
-      bind();
-      loadSaved();
-    };
-  </script>
+    <script>
+        // Run events that need to happen on initialization.
+        window.onload = function () {
+            bind();
+            loadSaved();
+        };
+    </script>
 </body>
 
 </html>

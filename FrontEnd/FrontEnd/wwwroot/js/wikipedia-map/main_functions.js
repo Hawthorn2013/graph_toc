@@ -15,7 +15,7 @@ function expandNodeCallback(page,data) {
   var node = nodes.get(page); //The node that was clicked
   var level = node.level + 1; //Level for new nodes is one more than parent
   var subpages = data; //Data returned from AJAX call
-
+    console.log(subpages);
   // Add all children to network
   var subnodes = [];
   var newedges = [];

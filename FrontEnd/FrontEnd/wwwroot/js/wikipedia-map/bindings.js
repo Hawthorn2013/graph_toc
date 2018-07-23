@@ -23,8 +23,8 @@ function mobileTraceEvent (params) { // Trace back a node (with event handler)
 function openPageEvent (params) {
   if (params.nodes.length) {
     var nodeid = params.nodes[0];
-    var page = encodeURIComponent(unwrap(nodes.get(nodeid).label));
-    var url = "http://en.wikipedia.org/wiki/"+page;
+      var page = encodeURIComponent(unwrap(nodes.get(nodeid).label));
+      var url = apiproxy.getEntity(page)["url"];
     window.open(url, '_blank');
   }
 }
