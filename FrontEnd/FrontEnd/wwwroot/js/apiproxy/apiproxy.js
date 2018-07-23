@@ -1,14 +1,45 @@
-var apiproxy = (function() {
-    var entities = {
-        Users: {
-            url: "https://developer.microsoft.com/en-us/graph/docs/concepts/azuread-users-concept-overview",
-            relation_entities: ["Documents", "Sites", "Tasks", "Meetings", "Contacts", "Email", "Calendar",],
-        },
-        Groups: {
-            url: "https://developer.microsoft.com/en-us/graph/docs/concepts/office365-groups-concept-overview",
-            relation_entities: ["Files", "Notes", "Tasks", "Sites", "Conversations", "Calendar",],
-        },
-    };
+var apiproxy = (function () {
+    var totalDataEndpoint = "./data/toc.json";
+    var totalData = {};
+    var entities = {};
+    var destEntities = {};
+    var dfs = function (srcEntities) {
+        for (var srcEntityIndex in srcEntities) {
+            var srcEntity = srcEntities[srcEntityIndex];
+            var id = srcEntity["id"];
+            var destEntity = destEntities[id];
+            if (destEntity == null) {
+                destEntity = {};
+                destEntity["relation_entities_dict"] = {};
+                destEntities[id] = destEntity;
+            }
+            var url = srcEntity["url"];
+            if (url == null) url = "";
+            destEntity["url"] = url;
+            var srcRelationEntities = srcEntity["entities"]
+            for (var srcRelationEntityIndex in srcRelationEntities) {
+                var srcRelationEntity = srcRelationEntities[srcRelationEntityIndex];
+                var relationId = srcRelationEntity["id"];
+                destEntity["relation_entities_dict"][relationId] = {};
+            }
+            dfs(srcRelationEntities);
+        }
+    }
+    $.getJSON(totalDataEndpoint, function (data) {
+        totalData = data;
+        dfs(totalData, entities);
+        for (var id in destEntities) {
+            var destEntity = destEntities[id];
+            var finalEntity = {};
+            finalEntity["url"] = destEntity["url"];
+            var relationEntities = [];
+            for (var relationEntityId in destEntity["relation_entities_dict"]) {
+                relationEntities.push(relationEntityId);
+            }
+            finalEntity["relation_entities"] = relationEntities;
+            entities[id] = finalEntity;
+        }
+    });
 
     var entitiesList = [];
     for (var entityName in entities) {
@@ -23,7 +54,8 @@ var apiproxy = (function() {
     };
     
     var getEntity = function (entityName) {
-        return entities[entityName];
+        var res = entities[entityName]
+        return res;
     };
 
     return {
