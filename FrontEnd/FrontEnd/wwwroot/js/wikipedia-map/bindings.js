@@ -73,7 +73,7 @@ function bind() {
   // Bind GitHub button
   var ghbutton = document.getElementById("github");
   ghbutton.onclick = function(event) {
-    window.open("https://github.com/The-Penultimate-Defenestrator/wikipedia-map");
+      window.open("https://github.com/docascode/graph_toc");
   };
 
   // Bind twitter button
