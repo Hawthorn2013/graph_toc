@@ -3,6 +3,7 @@ var apiproxy = (function () {
     var totalData = {};
     var entities = {};
     var destEntities = {};
+    var allEntitiesIdList = [];
     var defaultEntityList = [];
     var dfs = function (srcEntities) {
         for (var srcEntityIndex in srcEntities) {
@@ -54,16 +55,15 @@ var apiproxy = (function () {
         defaultEntityList = getCurrentLevelList(destEntities);
     });
 
-    var entitiesList = [];
     for (var entityName in entities) {
         var entity = {};
         entity["name"] = entityName;
         entity["url"] = entities[entityName].url;
-        entitiesList.push(entity);
+        allEntitiesIdList.push(entity);
     }
 
     var getEntities = function() {
-        return entitiesList;
+        return allEntitiesIdList;
     };
     
     var getEntity = function (entityName) {
