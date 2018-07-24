@@ -1,13 +1,13 @@
 var apiproxy = (function () {
     var globalLogSwitch = false;
     var totalDataEndpoint = "./data/toc2.json";
-    var originEntities = [];
+    var _originEntities = [];
     var nextSubIds = {};
     var outputEntities = {};
     var _dictMajorIdEntities = {};
     var _dictFullIdEntities = {};
     var _entityMajorIds = [];
-    var defaultEntityList = [];
+    var _defaultEntityList = [];
     var defaultEntityId = "__default__";
     var getAndUpdateSubId = function (majorId) {
         if (nextSubIds[majorId] == null) {
@@ -138,13 +138,13 @@ var apiproxy = (function () {
         return ids;
     };
     $.getJSON(totalDataEndpoint, function (data) {
-        originEntities = data;
-        var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(originEntities);
+        _originEntities = data;
+        var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
         _dictMajorIdEntities = dictEntitiesTmpRes[0];
         _dictFullIdEntities = dictEntitiesTmpRes[1];
         outputEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
         _entityMajorIds = getDictEntityIds(_dictMajorIdEntities);
-        defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
+        _defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
     });
 
     var getEntities = function() {
