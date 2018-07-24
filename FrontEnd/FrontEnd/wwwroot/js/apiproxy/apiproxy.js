@@ -58,10 +58,11 @@ var apiproxy = (function () {
         var dictMethods = {};
         for (var i in originMethods) {
             var originMethod = originMethods[i];
-            var dictMethodTmpRes = convertOriginMethodToDictMethod(originMethod);
-            var dictMethodName = dictMethodTmpRes[0];
-            var dictMethod = dictMethodTmpRes[1];
-            dictMethods[dictMethodName] = mergeDictMethod(dictMethods[dictMethodName], dictMethod);
+            var methodName = originMethod["name"];
+            var url = originMethod["url"];
+            var dictMethod = {};
+            dictMethod["url"] = url;
+            dictMethods[methodName] = dictMethod
         }
         return dictMethods;
     };
@@ -80,7 +81,8 @@ var apiproxy = (function () {
                 var dictFullIdEntity = {};
                 var name = originEntity["name"];
                 var url = originEntity["url"];
-                var methods = {};//TODO
+                var originMethods = originEntity["methods"];
+                var distMethods = convertOriginMethodsToDictMethods(originMethods);
                 var subOriginEntities = originEntity["entities"];
                 var subDictEntitiesTmpRes = recursion(subOriginEntities);
                 var subDictMajorIdEntities = subDictEntitiesTmpRes[0];
@@ -97,8 +99,8 @@ var apiproxy = (function () {
                 dictFullIdEntity["name"] = name;
                 dictMajorIdEntity["url"] = url;
                 dictFullIdEntity["url"] = url;
-                dictMajorIdEntity["methods"] = methods;
-                dictFullIdEntity["methods"] = methods;
+                dictMajorIdEntity["dict_methods"] = distMethods;
+                dictFullIdEntity["dict_methods"] = distMethods;
                 dictMajorIdEntity["relation_entities"] = relationMajorIdEntities;
                 dictFullIdEntity["relation_full_id_entities"] = relationFullIdEntities;
                 if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdEntity;
