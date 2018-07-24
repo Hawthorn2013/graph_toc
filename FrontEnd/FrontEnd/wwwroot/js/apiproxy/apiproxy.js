@@ -3,7 +3,7 @@ var apiproxy = (function () {
     var totalDataEndpoint = "./data/toc2.json";
     var _originEntities = [];
     var nextSubIds = {};
-    var outputEntities = {};
+    var _outputMajorIdEntities = {};
     var _dictMajorIdEntities = {};
     var _dictFullIdEntities = {};
     var _entityMajorIds = [];
@@ -142,7 +142,7 @@ var apiproxy = (function () {
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
         _dictMajorIdEntities = dictEntitiesTmpRes[0];
         _dictFullIdEntities = dictEntitiesTmpRes[1];
-        outputEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
+        _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
         _entityMajorIds = getDictEntityIds(_dictMajorIdEntities);
         _defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
     });
@@ -156,7 +156,7 @@ var apiproxy = (function () {
         if (entityId == defaultEntityId) {
             entity = makeDefaultEntity();
         } else {
-            entity = outputEntities[entityId]
+            entity = _outputMajorIdEntities[entityId]
         }
         return entity;
     };
