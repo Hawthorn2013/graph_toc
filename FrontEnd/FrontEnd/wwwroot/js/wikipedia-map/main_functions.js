@@ -25,9 +25,12 @@ function expandNodeCallback(page,data) {
   for (var i=0; i<subpages.length; i++) {
     var subpage = subpages[i];
       var subpageID = getNeutralId(subpage);
+      //var subpageName = apiproxy.getEntity(subpageID)['name']
+      var subpageName = i;
       
     if (nodes.getIds().indexOf(subpageID) == -1) { //Don't add if node exists
-        subnodes.push({id:subpageID, label:wordwrap(decodeURIComponent(subpage),15), value:1,
+        subnodes.push({
+            id: subpageID, label: wordwrap(decodeURIComponent(subpageName),15), value:1,
                        level:level, color:getColor(level), parent:page,
                        x:nodeSpawn[0], y:nodeSpawn[1]}); //Add node
     }
