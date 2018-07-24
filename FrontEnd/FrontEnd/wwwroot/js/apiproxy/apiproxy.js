@@ -8,7 +8,7 @@ var apiproxy = (function () {
     var _dictFullIdEntities = {};
     var _entityMajorIds = [];
     var _defaultEntityList = [];
-    var defaultEntityId = "__default__";
+    var _defaultEntityId = "__default__";
     var getAndUpdateSubId = function (majorId) {
         if (_nextSubIds[majorId] == null) {
             _nextSubIds[majorId] = 0;
@@ -122,7 +122,7 @@ var apiproxy = (function () {
     };
     var makeDefaultEntity = function () {
         var defaultEntity = {};
-        defaultEntity["id"] = defaultEntityId;
+        defaultEntity["id"] = _defaultEntityId;
         defaultEntity["name"] = "Default";
         defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
         defaultEntity["methods"] = {};
@@ -153,7 +153,7 @@ var apiproxy = (function () {
     
     var getEntity = function (entityId) {
         var entity;
-        if (entityId == defaultEntityId) {
+        if (entityId == _defaultEntityId) {
             entity = makeDefaultEntity();
         } else {
             entity = _outputMajorIdEntities[entityId]
