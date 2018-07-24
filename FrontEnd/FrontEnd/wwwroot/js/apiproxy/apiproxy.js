@@ -4,7 +4,6 @@ var apiproxy = (function () {
     var originEntities = [];
     var nextSubIds = {};
     var outputEntities = {};
-    var dictEntities = {};
     var _dictMajorIdEntities = {};
     var _dictFullIdEntities = {};
     var allEntitiesIdList = [];
@@ -136,9 +135,8 @@ var apiproxy = (function () {
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(originEntities);
         _dictMajorIdEntities = dictEntitiesTmpRes[0];
         _dictFullIdEntities = dictEntitiesTmpRes[1];
-        dictEntities = _dictMajorIdEntities;
-        outputEntities = convertDictEntitiesToOutputEntities(dictEntities);
-        defaultEntityList = getCurrentLevelList(dictEntities);
+        outputEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
+        defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
     });
 
     for (var entityName in outputEntities) {
