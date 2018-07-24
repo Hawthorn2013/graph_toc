@@ -5,6 +5,7 @@ var apiproxy = (function () {
     var dictEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
+    var defaultEntityId = "__default__";
     var convertOriginEntityToDictEntity = function (originEntity) {
         var id = originEntity["id"];
         if (id == null) {
@@ -109,8 +110,8 @@ var apiproxy = (function () {
     };
     var makeDefaultEntity = function () {
         var defaultEntity = {};
-        defaultEntity["id"] = "__default_entity__";
-        defaultEntity["name"] = "Default Root";
+        defaultEntity["id"] = defaultEntityId;
+        defaultEntity["name"] = "Default";
         defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
         var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users", ];
         defaultEntity["relation_entities"] = relationEntities;
@@ -134,9 +135,14 @@ var apiproxy = (function () {
         return allEntitiesIdList;
     };
     
-    var getEntity = function (entityName) {
-        var res = outputEntities[entityName]
-        return res;
+    var getEntity = function (entityId) {
+        var entity;
+        if (entityId == defaultEntityId) {
+            entity = makeDefaultEntity();
+        } else {
+            entity = outputEntities[entityId]
+        }
+        return entity;
     };
     
     var getDefaultEntity = function () {
