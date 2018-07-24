@@ -109,7 +109,7 @@ function resetNetworkFromInputDefault() {
     // Network should be reset
     //console.log(apiproxy.getDefaultEntity());
     needsreset = true;
-    getPageName("applications", addStart);
+    getPageName(apiproxy.getDefaultEntity()['id'], addStart);
 }
 
 
