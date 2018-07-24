@@ -3,6 +3,7 @@ var apiproxy = (function () {
     var totalData = {};
     var entities = {};
     var destEntities = {};
+    var defaultEntityList = [];
     var dfs = function (srcEntities) {
         for (var srcEntityIndex in srcEntities) {
             var srcEntity = srcEntities[srcEntityIndex];
@@ -28,6 +29,13 @@ var apiproxy = (function () {
             dfs(srcRelationEntities);
         }
     }
+    var getCurrentLevelList = function (entities) {
+        var idList = [];
+        for (var id in entities) {
+            idList.push(id);
+        }
+        return idList;
+    };
     $.getJSON(totalDataEndpoint, function (data) {
         totalData = data;
         dfs(totalData, entities);
@@ -43,6 +51,7 @@ var apiproxy = (function () {
             finalEntity["relation_entities"] = relationEntities;
             entities[id] = finalEntity;
         }
+        defaultEntityList = getCurrentLevelList(destEntities);
     });
 
     var entitiesList = [];
@@ -61,9 +70,14 @@ var apiproxy = (function () {
         var res = entities[entityName]
         return res;
     };
+    
+    var getDefaultEntity = function () {
+        return defaultEntityList;
+    };
 
     return {
         getEntities: getEntities,
         getEntity: getEntity,
+        getDefaultEntity: getDefaultEntity,
     };
 })();
