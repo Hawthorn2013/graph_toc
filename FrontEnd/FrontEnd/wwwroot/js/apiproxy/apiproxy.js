@@ -5,8 +5,8 @@ var apiproxy = (function () {
     var _originEntities = [];
     var _nextSubIds = {};
     var _outputMajorIdEntities = {};
-    var _dictMajorIdEntities = {};
-    var _dictFullIdEntities = {};
+    var _dictMajorIdFlatEntities = {};
+    var _dictFullIdFlatEntities = {};
     var _entityMajorIds = [];
     var _defaultEntityList = [];
     var _defaultEntityId = "__default__";
@@ -141,11 +141,11 @@ var apiproxy = (function () {
     $.getJSON(_totalDataEndpoint, function (data) {
         _originEntities = data;
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
-        _dictMajorIdEntities = dictEntitiesTmpRes[0];
-        _dictFullIdEntities = dictEntitiesTmpRes[1];
-        _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
-        _entityMajorIds = getDictEntityIds(_dictMajorIdEntities);
-        _defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
+        _dictMajorIdFlatEntities = dictEntitiesTmpRes[0];
+        _dictFullIdFlatEntities = dictEntitiesTmpRes[1];
+        _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
+        _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
+        _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
     });
 
     var getEntities = function() {
