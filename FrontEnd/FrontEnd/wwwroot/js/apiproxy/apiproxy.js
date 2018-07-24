@@ -12,9 +12,9 @@ var apiproxy = (function () {
         if (nextSubIds[majorId] == null) {
             nextSubIds[majorId] = 0;
         }
-        var currentOriginId = nextSubIds[majorId];
+        var currentSubId = nextSubIds[majorId];
         nextSubIds[majorId]++;
-        return majorId + "-" + currentOriginId;
+        return currentSubId;
     };
     var getFullId = function (majorId, subId) {
         var fullId = majorId + "-" + subId;
