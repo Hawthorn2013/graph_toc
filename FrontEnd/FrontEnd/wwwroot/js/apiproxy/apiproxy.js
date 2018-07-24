@@ -16,6 +16,9 @@ var apiproxy = (function () {
             var url = srcEntity["url"];
             if (url == null) url = "";
             destEntity["url"] = url;
+            var name = srcEntity["name"];
+            if (name == null) name = "";
+            destEntity["name"] = name;
             var srcRelationEntities = srcEntity["entities"]
             for (var srcRelationEntityIndex in srcRelationEntities) {
                 var srcRelationEntity = srcRelationEntities[srcRelationEntityIndex];
@@ -31,6 +34,7 @@ var apiproxy = (function () {
         for (var id in destEntities) {
             var destEntity = destEntities[id];
             var finalEntity = {};
+            finalEntity["name"] = destEntity["name"];
             finalEntity["url"] = destEntity["url"];
             var relationEntities = [];
             for (var relationEntityId in destEntity["relation_entities_dict"]) {
