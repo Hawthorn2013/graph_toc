@@ -25,8 +25,8 @@ function expandNodeCallback(page,data) {
   for (var i=0; i<subpages.length; i++) {
     var subpage = subpages[i];
       var subpageID = getNeutralId(subpage);
-      //var subpageName = apiproxy.getEntity(subpageID)['name']
-      var subpageName = i;
+      var subpageName = apiproxy.getEntity(subpageID)['name']
+      console.log(subpageName);
       
     if (nodes.getIds().indexOf(subpageID) == -1) { //Don't add if node exists
         subnodes.push({

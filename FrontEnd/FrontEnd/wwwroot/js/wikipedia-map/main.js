@@ -65,8 +65,8 @@ function resetNetwork(start, name) {
 
 // Add a new start node to the map.
 function addStart(start, url) {
-  //var name = apiproxy.getEntity(start)['name'];
-    var name = 'Applications';
+  var name = apiproxy.getEntity(start)['name'];
+  
   if (needsreset) {
     // Delete everything only for the first call to addStart by tracking needsreset
       resetNetwork(start, name);
@@ -107,9 +107,9 @@ function resetNetworkFromInput() {
 // Reset the network with the content from the input box.
 function resetNetworkFromInputDefault() {
     // Network should be reset
-    console.log("init default");
+    //console.log(apiproxy.getDefaultEntity());
     needsreset = true;
-    getPageName('applications', addStart);
+    getPageName("applications", addStart);
 }
 
 
