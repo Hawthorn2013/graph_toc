@@ -38,6 +38,10 @@ function lightenHex(hex,percent) {
 function getColor(level) {
   return lightenHex("#03A9F4",5*level); // Gets 5% lighter for each level
 }
+// Get the color for a node, lighten a blue based on level. Subtle.
+function getMethodColor(level) {
+    return lightenHex("#FFB6C1", 5 * level); // Gets 5% lighter for each level
+}
 // Get the highlighted color for a node, lighten a yellow based on level. Subtle.
 function getYellowColor(level) {
   return lightenHex("#FFC107",5*level); // Gets 5% lighter for each level
@@ -97,10 +101,17 @@ function sign(x) {
 // == NETWORK SHORTCUTS == //
 
 // Color nodes from a list based on their level. If color=1, highlight color will be used.
-function colorNodes(ns,color) {
-  var colorFunc = color ? getYellowColor : getColor;
+function colorNodes(ns, color) {
+  
 
-  for (var i=0; i<ns.length; i++) {
+    for (var i = 0; i < ns.length; i++) {
+        var colorFunc
+        if (ns[i]['isMethod']) {
+            colorFunc = color ? getYellowColor : getMethodColor;
+        } else {
+            colorFunc = color ? getYellowColor : getColor;
+        }
+        
     ns[i].color=colorFunc(ns[i].level);
     // Prevent snapping
     delete ns[i].x;

@@ -4,10 +4,18 @@
 //Functions that will be used as bindings
 function expandEvent (params) { // Expand a node (with event handler)
   if (params.nodes.length) { //Did the click occur on a node?
-    var page = params.nodes[0]; //The id of the node clicked
-    expandNode(page);
+      var nodeId = params.nodes[0]; //The id of the node clicked
+      //if (!nodes.get(nodeId).isExpand) {
+          //nodes.update({ id: nodeId, isExpand: true });
+          expandNode(nodeId);
+      //} else {
+         // nodes.update({ id: nodeId, isExpand: false });
+          //console.log('remove');
+     // }
+    
   }
 }
+
 
 function mobileTraceEvent (params) { // Trace back a node (with event handler)
   if (params.nodes.length) { //Was the click on a node?
@@ -25,7 +33,7 @@ function openPageEvent (params) {
     var nodeid = params.nodes[0];
       var id = nodes.get(nodeid).id;
       var url = apiproxy.getEntity(id)["url"];
-      console.log("url----->"+url);
+      console.log("url----->" + url);
     window.open(url, '_blank');
   }
 }
@@ -38,7 +46,7 @@ function bindNetwork(){
   } else { // Device does not have touchscreen
     network.on("click", expandEvent); // Expand on click
     network.on("hoverNode", function(params){ // Highlight traceback on hover
-      traceBack(params.node);
+        traceBack(params.node);
     });
     network.on("blurNode", resetProperties); // un-traceback on un-hover
   }

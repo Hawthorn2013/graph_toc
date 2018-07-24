@@ -14,24 +14,47 @@ var tracenodes = [];
 function expandNodeCallback(page,data) {
   var node = nodes.get(page); //The node that was clicked
   var level = node.level + 1; //Level for new nodes is one more than parent
-  var subpages = data; //Data returned from AJAX call
-    console.log(subpages);  
+    var subpages = data; //Data returned from AJAX call
+    //var methods = apiproxy.getMethods(page);
+    var methods = [{ 'name': 'aaa', 'url': 'bbb' }, { 'name': 'ccc', 'url': 'ddd'}];
   // Add all children to network
   var subnodes = [];
   var newedges = [];
   // Where new nodes should be spawned
-  var nodeSpawn = getSpawnPosition(page);
+    var nodeSpawn = getSpawnPosition(page);
+    //create methods objects
+    for (var i = 0; i < methods.length; i++) {
+        var method = methods[i];
+        var methodId = method['name'];
+        var methodName = method['name'];
+        var methodUrl = method['url'];
+        if (nodes.getIds().indexOf(methodId) == -1) {
+        subnodes.push({
+            id: methodId, label: wordwrap(decodeURIComponent(methodName), 15), value: 1,
+            level: level, color: getMethodColor(level), parent: page,
+            x: nodeSpawn[0], y: nodeSpawn[1], url: methodUrl, isMethod: true
+            }); //Add node
+        }
+
+        if (!getEdgeConnecting(page, methodId)) { //Don't create duplicate edges in same direction
+            newedges.push({
+                from: page, to: methodId, color: getEdgeColor(level),
+                level: level, selectionWidth: 2, hoverWidth: 0
+            });
+        }
+    }
+
   //Create node objects
   for (var i=0; i<subpages.length; i++) {
     var subpage = subpages[i];
       var subpageID = getNeutralId(subpage);
-      var subpageName = apiproxy.getEntity(subpageID)['name']
+      var subpageName = apiproxy.getEntity(subpageID)['name'];
       
     if (nodes.getIds().indexOf(subpageID) == -1) { //Don't add if node exists
         subnodes.push({
             id: subpageID, label: wordwrap(decodeURIComponent(subpageName),15), value:1,
                        level:level, color:getColor(level), parent:page,
-                       x:nodeSpawn[0], y:nodeSpawn[1]}); //Add node
+            x: nodeSpawn[0], y: nodeSpawn[1], isMethod: false}); //Add node
     }
 
     if (!getEdgeConnecting(page, subpageID)) { //Don't create duplicate edges in same direction

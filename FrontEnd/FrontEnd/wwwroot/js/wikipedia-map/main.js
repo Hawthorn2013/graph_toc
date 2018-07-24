@@ -54,7 +54,7 @@ function resetNetwork(start, name) {
   //Make a container
   nodes = new vis.DataSet([
     {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
-          color: getColor(0), x: 0, y: 0, parent: startID} //Parent is self
+          color: getColor(0), x: 0, y: 0, parent: startID, isMethod: false, isExpand: false} //Parent is self
   ]);
   edges = new vis.DataSet();
   //Put the data in the container
@@ -79,7 +79,7 @@ function addStart(start, url) {
     startpages.push(startID);
     nodes.add([
       {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
-            color: getColor(0), x: 0, y: 0, parent: startID} // Parent is self
+            color: getColor(0), x: 0, y: 0, parent: startID, isMethod:false, isExpand: false} // Parent is self
     ]);
   }
 }
