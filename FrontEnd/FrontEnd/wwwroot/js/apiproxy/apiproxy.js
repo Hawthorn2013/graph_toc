@@ -6,7 +6,7 @@ var apiproxy = (function () {
     var outputEntities = {};
     var _dictMajorIdEntities = {};
     var _dictFullIdEntities = {};
-    var allEntitiesIdList = [];
+    var _entityMajorIds = [];
     var defaultEntityList = [];
     var defaultEntityId = "__default__";
     var getAndUpdateSubId = function (majorId) {
@@ -130,24 +130,25 @@ var apiproxy = (function () {
         defaultEntity["relation_entities"] = relationEntities;
         return defaultEntity;
     }
+    var getDictEntityIds = function (dictEntities) {
+        var ids = [];
+        for (var id in dictEntities) {
+            ids.push(id);
+        }
+        return ids;
+    };
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(originEntities);
         _dictMajorIdEntities = dictEntitiesTmpRes[0];
         _dictFullIdEntities = dictEntitiesTmpRes[1];
         outputEntities = convertDictEntitiesToOutputEntities(_dictMajorIdEntities);
+        _entityMajorIds = getDictEntityIds(_dictMajorIdEntities);
         defaultEntityList = getCurrentLevelList(_dictMajorIdEntities);
     });
 
-    for (var entityName in outputEntities) {
-        var entity = {};
-        entity["name"] = entityName;
-        entity["url"] = outputEntities[entityName].url;
-        allEntitiesIdList.push(entity);
-    }
-
     var getEntities = function() {
-        return allEntitiesIdList;
+        return _entityMajorIds;
     };
     
     var getEntity = function (entityId) {
