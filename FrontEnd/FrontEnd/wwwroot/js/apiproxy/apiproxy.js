@@ -34,18 +34,6 @@ var apiproxy = (function () {
         var subId = tmpRes[2];
         return subId;
     };
-    var convertOriginMethodToDictMethod = function (originMethod) {
-        var dictMethod = {};
-        var methodName = originMethod["name"];
-        if (methodName == null) {
-            if (globalLogSwitch) {
-                console.warn("Method name field not found, the method is ignored.");
-            }
-            return;
-        }
-        dictMethod["url"] = originMethod["url"];
-        return [methodName, dictMethod];
-    };
     var convertOriginMethodsToDictMethods = function (originMethods) {
         var dictMethods = {};
         for (var i in originMethods) {
