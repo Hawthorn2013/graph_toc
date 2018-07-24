@@ -194,9 +194,16 @@ var apiproxy = (function () {
         return defaultEntity;
     };
 
+    var getEntityMethods = function (entityId) {
+        var outputEntity = outputEntities[entityId]
+        var methods = outputEntity["methods"];
+        return methods;
+    }
+
     return {
         getEntities: getEntities,
         getEntity: getEntity,
         getDefaultEntity: getDefaultEntity,
+        getEntityMethods: getEntityMethods,
     };
 })();
