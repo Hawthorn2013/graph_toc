@@ -1,8 +1,8 @@
 var apiproxy = (function () {
     var totalDataEndpoint = "./data/toc2.json";
-    var totalData = {};
+    var originEntities = [];
     var entities = {};
-    var destEntities = {};
+    var dictEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
     var convertOriginEntityToDictEntity = function (originEntity) {
@@ -97,10 +97,10 @@ var apiproxy = (function () {
         return idList;
     };
     $.getJSON(totalDataEndpoint, function (data) {
-        totalData = data;
-        destEntities = getAllLevelDictEntities(totalData);
-        for (var id in destEntities) {
-            var destEntity = destEntities[id];
+        originEntities = data;
+        dictEntities = getAllLevelDictEntities(originEntities);
+        for (var id in dictEntities) {
+            var destEntity = dictEntities[id];
             var finalEntity = {};
             finalEntity["name"] = destEntity["name"];
             finalEntity["url"] = destEntity["url"];
@@ -111,7 +111,7 @@ var apiproxy = (function () {
             finalEntity["relation_entities"] = relationEntities;
             entities[id] = finalEntity;
         }
-        defaultEntityList = getCurrentLevelList(destEntities);
+        defaultEntityList = getCurrentLevelList(dictEntities);
     });
 
     for (var entityName in entities) {
