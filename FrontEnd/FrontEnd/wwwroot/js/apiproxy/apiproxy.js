@@ -12,17 +12,8 @@ var apiproxy = (function () {
             return;
         }
         var name = originEntity["name"];
-        if (id == null) {
-            console.warn("Name field not found.");
-        }
         var url = originEntity["url"];
-        if (url == null) {
-            console.warn("Url field not found.");
-        }
         var relationOriginEntities = originEntity["entities"];
-        if (relationOriginEntities == null) {
-            console.warn("Entities field not found.");
-        }
         var relationDictEntities = {};
         for (var i in relationOriginEntities) {
             var relationOriginEntity = relationOriginEntities[i];
