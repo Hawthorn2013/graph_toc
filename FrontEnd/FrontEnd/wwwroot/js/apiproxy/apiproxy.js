@@ -1,7 +1,7 @@
 var apiproxy = (function () {
     var totalDataEndpoint = "./data/toc2.json";
     var originEntities = [];
-    var entities = {};
+    var outputEntities = {};
     var dictEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
@@ -96,28 +96,37 @@ var apiproxy = (function () {
         }
         return idList;
     };
+    var convertDictEntityToOutputEntity = function (dictEntity) {
+        var outputEntity = {};
+        outputEntity["name"] = dictEntity["name"];
+        outputEntity["url"] = dictEntity["url"];
+        var relationEntities = [];
+        for (var relationEntityId in dictEntity["relation_dict_entities"]) {
+            relationEntities.push(relationEntityId);
+        }
+        outputEntity["relation_entities"] = relationEntities;
+        return outputEntity;
+    };
+    var convertDictEntitiesToOutputEntities = function (dictEntities) {
+        var outputEntities = {};
+        for (var id in dictEntities) {
+            var dictEntity = dictEntities[id];
+            var outputEntity = convertDictEntityToOutputEntity(dictEntity);
+            outputEntities[id] = outputEntity;
+        }
+        return outputEntities;
+    };
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
         dictEntities = getAllLevelDictEntities(originEntities);
-        for (var id in dictEntities) {
-            var destEntity = dictEntities[id];
-            var finalEntity = {};
-            finalEntity["name"] = destEntity["name"];
-            finalEntity["url"] = destEntity["url"];
-            var relationEntities = [];
-            for (var relationEntityId in destEntity["relation_dict_entities"]) {
-                relationEntities.push(relationEntityId);
-            }
-            finalEntity["relation_entities"] = relationEntities;
-            entities[id] = finalEntity;
-        }
+        outputEntities = convertDictEntitiesToOutputEntities(dictEntities);
         defaultEntityList = getCurrentLevelList(dictEntities);
     });
 
-    for (var entityName in entities) {
+    for (var entityName in outputEntities) {
         var entity = {};
         entity["name"] = entityName;
-        entity["url"] = entities[entityName].url;
+        entity["url"] = outputEntities[entityName].url;
         allEntitiesIdList.push(entity);
     }
 
@@ -126,7 +135,7 @@ var apiproxy = (function () {
     };
     
     var getEntity = function (entityName) {
-        var res = entities[entityName]
+        var res = outputEntities[entityName]
         return res;
     };
     
