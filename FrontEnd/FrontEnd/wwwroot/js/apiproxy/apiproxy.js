@@ -81,7 +81,7 @@ var apiproxy = (function () {
                 dictMajorIdEntity["dict_methods"] = distMethods;
                 dictFullIdEntity["dict_methods"] = distMethods;
                 dictMajorIdEntity["relation_entities"] = relationMajorIdEntities;
-                dictFullIdEntity["relation_full_id_entities"] = relationFullIdEntities;
+                dictFullIdEntity["relation_entities"] = relationFullIdEntities;
                 if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdEntity;
                 currentDictFullIdEntities[fullId] = dictFullIdEntity;
                 if (dictMajorIdEntities[id] == null) dictMajorIdEntities[id] = dictMajorIdEntity;
@@ -105,7 +105,7 @@ var apiproxy = (function () {
         outputEntity["url"] = dictEntity["url"];
         outputEntity["methods"] = dictEntity["dict_methods"];
         var relationEntities = [];
-        for (var relationEntityId in dictEntity["relation_dict_entities"]) {
+        for (var relationEntityId in dictEntity["relation_entities"]) {
             relationEntities.push(relationEntityId);
         }
         outputEntity["relation_entities"] = relationEntities;
