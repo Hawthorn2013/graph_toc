@@ -24,7 +24,8 @@ function openPageEvent (params) {
   if (params.nodes.length) {
     var nodeid = params.nodes[0];
       var id = nodes.get(nodeid).id;
-      var url = apiproxy.getEntity('applications')["url"];
+      var url = apiproxy.getEntity(id)["url"];
+      console.log("url----->"+url);
     window.open(url, '_blank');
   }
 }
