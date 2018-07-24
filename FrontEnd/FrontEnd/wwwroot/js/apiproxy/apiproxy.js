@@ -2,7 +2,7 @@ var apiproxy = (function () {
     var globalLogSwitch = false;
     var totalDataEndpoint = "./data/toc2.json";
     var _originEntities = [];
-    var nextSubIds = {};
+    var _nextSubIds = {};
     var _outputMajorIdEntities = {};
     var _dictMajorIdEntities = {};
     var _dictFullIdEntities = {};
@@ -10,11 +10,11 @@ var apiproxy = (function () {
     var _defaultEntityList = [];
     var defaultEntityId = "__default__";
     var getAndUpdateSubId = function (majorId) {
-        if (nextSubIds[majorId] == null) {
-            nextSubIds[majorId] = 0;
+        if (_nextSubIds[majorId] == null) {
+            _nextSubIds[majorId] = 0;
         }
-        var currentSubId = nextSubIds[majorId];
-        nextSubIds[majorId]++;
+        var currentSubId = _nextSubIds[majorId];
+        _nextSubIds[majorId]++;
         return currentSubId;
     };
     var getFullId = function (majorId, subId) {
