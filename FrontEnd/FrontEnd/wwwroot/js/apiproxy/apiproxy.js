@@ -5,6 +5,8 @@ var apiproxy = (function () {
     var nextSubIds = {};
     var outputEntities = {};
     var dictEntities = {};
+    var _dictMajorIdEntities = {};
+    var _dictFullIdEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
     var defaultEntityId = "__default__";
@@ -62,6 +64,52 @@ var apiproxy = (function () {
             dictMethods[dictMethodName] = mergeDictMethod(dictMethods[dictMethodName], dictMethod);
         }
         return dictMethods;
+    };
+    var convertOriginEntitiesToDictEntities = function (originEntities) {
+        var dictMajorIdEntities = {};
+        var dictFullIdEntities = {};
+        var recursion = function (originEntities) {
+            var currentDictMajorIdEntities = {};
+            var currentDictFullIdEntities = {};
+            for (var i in originEntities) {
+                var originEntity = originEntities[i];
+                var id = originEntity["id"];
+                var subId = getAndUpdateSubId(id);
+                var fullId = getFullId(id, subId);
+                var dictMajorIdEntity = {};
+                var dictFullIdEntity = {};
+                var name = originEntity["name"];
+                var url = originEntity["url"];
+                var methods = {};//TODO
+                var subOriginEntities = originEntity["entities"];
+                var subDictEntitiesTmpRes = recursion(subOriginEntities);
+                var subDictMajorIdEntities = subDictEntitiesTmpRes[0];
+                var subDictFullIdEntities = subDictEntitiesTmpRes[1];
+                var relationMajorIdEntities = {};
+                var relationFullIdEntities = {};
+                for (var subMajorId in subDictMajorIdEntities) {
+                    relationMajorIdEntities[subMajorId] = {};
+                }
+                for (var subFullId in subDictFullIdEntities) {
+                    relationFullIdEntities[subFullId] = {};
+                }
+                dictMajorIdEntity["name"] = name;
+                dictFullIdEntity["name"] = name;
+                dictMajorIdEntity["url"] = url;
+                dictFullIdEntity["url"] = url;
+                dictMajorIdEntity["methods"] = methods;
+                dictFullIdEntity["methods"] = methods;
+                dictMajorIdEntity["relation_entities"] = relationMajorIdEntities;
+                dictFullIdEntity["relation_full_id_entities"] = relationFullIdEntities;
+                if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdEntity;
+                currentDictFullIdEntities[fullId] = dictFullIdEntity;
+                if (dictMajorIdEntities[id] == null) dictMajorIdEntities[id] = dictMajorIdEntity;
+                dictFullIdEntities[fullId] = dictFullIdEntity;
+            }
+            return [currentDictMajorIdEntities, currentDictFullIdEntities];
+        };
+        recursion(originEntities);
+        return [dictMajorIdEntities, dictFullIdEntities];
     };
     var convertOriginEntityToDictEntity = function (originEntity) {
         var id = originEntity["id"];
@@ -199,6 +247,9 @@ var apiproxy = (function () {
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
         dictEntities = getAllLevelDictEntities(originEntities);
+        var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(originEntities);
+        _dictMajorIdEntities = dictEntitiesTmpRes[0];
+        _dictFullIdEntities = dictEntitiesTmpRes[1];
         outputEntities = convertDictEntitiesToOutputEntities(dictEntities);
         defaultEntityList = getCurrentLevelList(dictEntities);
     });
