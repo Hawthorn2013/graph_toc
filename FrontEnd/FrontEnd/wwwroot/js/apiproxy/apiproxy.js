@@ -7,6 +7,8 @@ var apiproxy = (function () {
     var _outputMajorIdEntities = {};
     var _dictMajorIdFlatEntities = {};
     var _dictFullIdFlatEntities = {};
+    var _dictMajorIdTreeEntities = {};
+    var _dictFullIdTreeEntities = {};
     var _entityMajorIds = [];
     var _defaultEntityList = [];
     var _defaultEntityId = "__default__";
@@ -81,16 +83,22 @@ var apiproxy = (function () {
                 dictFullIdEntity["url"] = url;
                 dictMajorIdEntity["dict_methods"] = distMethods;
                 dictFullIdEntity["dict_methods"] = distMethods;
+                var dictMajorIdTreeEntity = JSON.parse(JSON.stringify(dictMajorIdEntity));
+                var dictFullIdTreeEntity = JSON.parse(JSON.stringify(dictFullIdEntity));
                 dictMajorIdEntity["relation_entities"] = relationMajorIdEntities;
                 dictFullIdEntity["relation_entities"] = relationFullIdEntities;
-                if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdEntity;
-                currentDictFullIdEntities[fullId] = dictFullIdEntity;
+                dictMajorIdTreeEntity["relation_entities"] = subDictMajorIdEntities;
+                dictFullIdTreeEntity["relation_entities"] = subDictFullIdEntities;
+                if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdTreeEntity;
+                currentDictFullIdEntities[fullId] = dictFullIdTreeEntity;
                 if (dictMajorIdEntities[id] == null) dictMajorIdEntities[id] = dictMajorIdEntity;
                 dictFullIdEntities[fullId] = dictFullIdEntity;
             }
             return [currentDictMajorIdEntities, currentDictFullIdEntities];
         };
-        recursion(originEntities);
+        var dictTreeEntitiesTmpRes = recursion(originEntities);
+        _dictMajorIdTreeEntities = dictTreeEntitiesTmpRes[0];
+        _dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
         return [dictMajorIdEntities, dictFullIdEntities];
     };
     var getCurrentLevelList = function (entities) {
