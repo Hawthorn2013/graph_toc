@@ -1,5 +1,5 @@
 var apiproxy = (function () {
-    var globalLogSwitch = false;
+    var _globalLogSwitch = false;
     var _totalDataEndpoint = "./data/toc2.json";
     var _originEntities = [];
     var _nextSubIds = {};
@@ -173,8 +173,8 @@ var apiproxy = (function () {
     };
 
     var setGlobalLogSwitch = function (status) {
-        if (status) globalLogSwitch = true;
-        else globalLogSwitch = false;
+        if (status) _globalLogSwitch = true;
+        else _globalLogSwitch = false;
     };
 
     return {
