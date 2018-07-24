@@ -46,14 +46,6 @@ var apiproxy = (function () {
         dictMethod["url"] = originMethod["url"];
         return [methodName, dictMethod];
     };
-    var mergeDictMethod = function (dictMethod1, dictMethod2) {
-        if (dictMethod1 == null) return dictMethod2;
-        if (dictMethod2 == null) return dictMethod1;
-        if (globalLogSwitch) {
-            console.log("Merge dictMethod conflict, use dictMethod1.");
-        }
-        return dictMethod1;
-    };
     var convertOriginMethodsToDictMethods = function (originMethods) {
         var dictMethods = {};
         for (var i in originMethods) {
@@ -112,101 +104,6 @@ var apiproxy = (function () {
         };
         recursion(originEntities);
         return [dictMajorIdEntities, dictFullIdEntities];
-    };
-    var convertOriginEntityToDictEntity = function (originEntity) {
-        var id = originEntity["id"];
-        if (id == null) {
-            if (globalLogSwitch) {
-                console.warn("Id field not found, convert originEntity to dictEntity failed.");
-            }
-            return;
-        }
-        var name = originEntity["name"];
-        var url = originEntity["url"];
-        var originMethods = originEntity["methods"];
-        var dictMethods = convertOriginMethodsToDictMethods(originMethods);
-        var relationOriginEntities = originEntity["entities"];
-        var relationDictEntities = {};
-        for (var i in relationOriginEntities) {
-            var relationOriginEntity = relationOriginEntities[i];
-            var relationOriginEntityId = relationOriginEntity["id"];
-            if (relationOriginEntityId == null) {
-                if (globalLogSwitch) {
-                    console.warn("Relation entity id field not found, the entity is ignored.");
-                }
-                continue;
-            }
-            relationDictEntities[relationOriginEntityId] = {};
-        }
-        var dictEntity = {};
-        dictEntity["name"] = name;
-        dictEntity["url"] = url;
-        dictEntity["dict_methods"] = dictMethods;
-        dictEntity["relation_dict_entities"] = relationDictEntities;
-        return [id, dictEntity];
-    };
-    var mergeDictMethods = function (dictMethods1, dictMethods2) {
-        if (dictMethods1 == null) return dictMethods2;
-        if (dictMethods2 == null) return dictMethods1;
-        for (var dictMethodName in dictMethods2) {
-            var dictMethod = dictMethods2[dictMethodName];
-            dictMethods1[dictMethodName] = mergeDictMethod(dictMethods1[dictMethodName], dictMethod);
-        }
-        return dictMethods1;
-    };
-    var mergeDictEntity = function (dictEntity1, dictEntity2) {
-        if (dictEntity1 == null) return dictEntity2;
-        if (dictEntity2 == null) return dictEntity1;
-        var dictMethods1 = dictEntity1["dict_methods"];
-        var dictMethods2 = dictEntity2["dict_methods"];
-        var dictMethods = mergeDictMethods(dictMethods1, dictMethods2);
-        var relationDictEntities1 = dictEntity1["relation_dict_entities"];
-        var relationDictEntities2 = dictEntity2["relation_dict_entities"];
-        if (relationDictEntities1 == null) {
-            relationDictEntities1 = relationDictEntities2;
-            if (relationDictEntities1 == null) {
-                relationDictEntities1 = {};
-            }
-        }
-        else {
-            for (var id in relationDictEntities2) {
-                relationDictEntities1[id] = {};
-            }
-        }
-        dictEntity1["dict_methods"] = dictMethods;
-        dictEntity1["relation_dict_entities"] = relationDictEntities1;
-        return dictEntity1;
-    };
-    var getCurrentLevelDictEntities = function (originEntities) {
-        var currentLevelDictEntities = {};
-        for (var i in originEntities) {
-            var originEntity = originEntities[i];
-            var dictEntityTmpRes = convertOriginEntityToDictEntity(originEntity);
-            if (dictEntityTmpRes == null) {
-                continue;
-            }
-            var id = dictEntityTmpRes[0];
-            var dictEntity = dictEntityTmpRes[1];
-            currentLevelDictEntities[id] = mergeDictEntity(currentLevelDictEntities[id], dictEntity);
-        }
-        return currentLevelDictEntities;
-    };
-    var getAllLevelDictEntities = function (originEntities) {
-        var allLevelDictEntities = {};
-        var recursion = function (originEntities) {
-            var currentLevelDictEntities = getCurrentLevelDictEntities(originEntities);
-            for (var id in currentLevelDictEntities) {
-                var currentLevelDictEntity = currentLevelDictEntities[id];
-                allLevelDictEntities[id] = mergeDictEntity(allLevelDictEntities[id], currentLevelDictEntity);
-            }
-            for (var i in originEntities) {
-                var originEntity = originEntities[i];
-                var relationOriginEntities = originEntity["entities"];
-                recursion(relationOriginEntities);
-            }
-        }
-        recursion(originEntities);
-        return allLevelDictEntities;
     };
     var getCurrentLevelList = function (entities) {
         var idList = [];
