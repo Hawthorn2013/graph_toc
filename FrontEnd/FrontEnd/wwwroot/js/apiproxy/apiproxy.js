@@ -49,8 +49,8 @@ var apiproxy = (function () {
         return dictMethods;
     };
     var convertOriginEntitiesToDictEntities = function (originEntities) {
-        var dictMajorIdEntities = {};
-        var dictFullIdEntities = {};
+        var dictMajorIdFlatEntities = {};
+        var dictFullIdFlatEntities = {};
         var recursion = function (originEntities) {
             var currentDictMajorIdEntities = {};
             var currentDictFullIdEntities = {};
@@ -91,15 +91,15 @@ var apiproxy = (function () {
                 dictFullIdTreeEntity["relation_entities"] = subDictFullIdEntities;
                 if (currentDictMajorIdEntities[id] == null) currentDictMajorIdEntities[id] = dictMajorIdTreeEntity;
                 currentDictFullIdEntities[fullId] = dictFullIdTreeEntity;
-                if (dictMajorIdEntities[id] == null) dictMajorIdEntities[id] = dictMajorIdEntity;
-                dictFullIdEntities[fullId] = dictFullIdEntity;
+                if (dictMajorIdFlatEntities[id] == null) dictMajorIdFlatEntities[id] = dictMajorIdEntity;
+                dictFullIdFlatEntities[fullId] = dictFullIdEntity;
             }
             return [currentDictMajorIdEntities, currentDictFullIdEntities];
         };
         var dictTreeEntitiesTmpRes = recursion(originEntities);
         _dictMajorIdTreeEntities = dictTreeEntitiesTmpRes[0];
         _dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
-        return [dictMajorIdEntities, dictFullIdEntities];
+        return [dictMajorIdFlatEntities, dictFullIdFlatEntities];
     };
     var getCurrentLevelList = function (entities) {
         var idList = [];
