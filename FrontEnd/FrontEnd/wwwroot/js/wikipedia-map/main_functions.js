@@ -15,19 +15,18 @@ function expandNodeCallback(page,data) {
   var node = nodes.get(page); //The node that was clicked
   var level = node.level + 1; //Level for new nodes is one more than parent
     var subpages = data; //Data returned from AJAX call
-    //var methods = apiproxy.getMethods(page);
-    var methods = [{ 'name': 'aaa', 'url': 'bbb' }, { 'name': 'ccc', 'url': 'ddd'}];
+    var methods = apiproxy.getEntityMethods(page);
+    console.log(methods);
   // Add all children to network
   var subnodes = [];
   var newedges = [];
   // Where new nodes should be spawned
     var nodeSpawn = getSpawnPosition(page);
     //create methods objects
-    for (var i = 0; i < methods.length; i++) {
-        var method = methods[i];
-        var methodId = method['name'];
-        var methodName = method['name'];
-        var methodUrl = method['url'];
+    for (var key in methods) {
+        var methodId = key + '__' + page;
+        var methodName = key;
+        var methodUrl = methods[key]['url'];
         if (nodes.getIds().indexOf(methodId) == -1) {
         subnodes.push({
             id: methodId, label: wordwrap(decodeURIComponent(methodName), 15), value: 1,

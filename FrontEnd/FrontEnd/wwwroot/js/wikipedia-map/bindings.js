@@ -7,7 +7,10 @@ function expandEvent (params) { // Expand a node (with event handler)
       var nodeId = params.nodes[0]; //The id of the node clicked
       //if (!nodes.get(nodeId).isExpand) {
           //nodes.update({ id: nodeId, isExpand: true });
+      if (!nodes.get(nodeId).isMethod) {
           expandNode(nodeId);
+      } 
+          
       //} else {
          // nodes.update({ id: nodeId, isExpand: false });
           //console.log('remove');
@@ -32,7 +35,13 @@ function openPageEvent (params) {
   if (params.nodes.length) {
     var nodeid = params.nodes[0];
       var id = nodes.get(nodeid).id;
-      var url = apiproxy.getEntity(id)["url"];
+      var url;
+      if (nodes.get(nodeid).isMethod) {
+          url = nodes.get(nodeid).url;
+      } else {
+          url = apiproxy.getEntity(id)["url"];
+      }
+      
       console.log("url----->" + url);
     window.open(url, '_blank');
   }
