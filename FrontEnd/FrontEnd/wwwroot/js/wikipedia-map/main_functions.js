@@ -15,7 +15,7 @@ function expandNodeCallback(page,data) {
   var node = nodes.get(page); //The node that was clicked
   var level = node.level + 1; //Level for new nodes is one more than parent
   var subpages = data; //Data returned from AJAX call
-    console.log(subpages);
+    console.log(subpages);  
   // Add all children to network
   var subnodes = [];
   var newedges = [];
@@ -24,7 +24,8 @@ function expandNodeCallback(page,data) {
   //Create node objects
   for (var i=0; i<subpages.length; i++) {
     var subpage = subpages[i];
-    var subpageID = getNeutralId(subpage);
+      var subpageID = getNeutralId(subpage);
+      
     if (nodes.getIds().indexOf(subpageID) == -1) { //Don't add if node exists
         subnodes.push({id:subpageID, label:wordwrap(decodeURIComponent(subpage),15), value:1,
                        level:level, color:getColor(level), parent:page,
@@ -43,8 +44,8 @@ function expandNodeCallback(page,data) {
 }
 //Expand a node without freezing other stuff
 function expandNode(page) {
-  var label = nodes.get(page).label;
-  var pagename = encodeURIComponent(unwrap(label));
+    var id = nodes.get(page).id;
+    var pagename = encodeURIComponent(unwrap(id));
   getSubPages(pagename,
     function(data) {expandNodeCallback(page,data);});
 }

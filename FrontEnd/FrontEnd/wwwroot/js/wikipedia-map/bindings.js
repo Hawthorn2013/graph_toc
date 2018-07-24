@@ -23,8 +23,8 @@ function mobileTraceEvent (params) { // Trace back a node (with event handler)
 function openPageEvent (params) {
   if (params.nodes.length) {
     var nodeid = params.nodes[0];
-      var page = encodeURIComponent(unwrap(nodes.get(nodeid).label));
-      var url = apiproxy.getEntity(page)["url"];
+      var id = nodes.get(nodeid).id;
+      var url = apiproxy.getEntity('applications')["url"];
     window.open(url, '_blank');
   }
 }
@@ -66,9 +66,11 @@ function bind() {
   var randomButton = document.getElementById('random');
   randomButton.onclick = randomReset;
 
-  // Bind tour start
-  var tourbtn = document.getElementById("tourinit");
-  tourbtn.onclick = function(){shepherd.start();};
+  //start
+  //var tourbtn = document.getElementById("tourinit");
+  //tourbtn.onclick = function(){shepherd.start();};
+  //init default
+  resetNetworkFromInputDefault();
 
   // Bind GitHub button
   var ghbutton = document.getElementById("github");

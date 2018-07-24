@@ -40,7 +40,7 @@ function makeNetwork() {
 
 
 // Reset the network to be new each time.
-function resetNetwork(start, url) {
+function resetNetwork(start, name) {
   if (!initialized) makeNetwork();
   var startID = getNeutralId(start);
   startpages = [startID]; // Register the page as an origin node
@@ -53,7 +53,7 @@ function resetNetwork(start, url) {
   // -- CREATE NETWORK -- //
   //Make a container
   nodes = new vis.DataSet([
-    {id:startID, label:wordwrap(decodeURIComponent(start),20), value:2, level:0,
+    {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
           color: getColor(0), x: 0, y: 0, parent: startID} //Parent is self
   ]);
   edges = new vis.DataSet();
@@ -65,18 +65,20 @@ function resetNetwork(start, url) {
 
 // Add a new start node to the map.
 function addStart(start, url) {
-    console.log(url);
+  //name = apiproxy.getEntity(start)['name'];
+    name = 'Applications';
   if (needsreset) {
     // Delete everything only for the first call to addStart by tracking needsreset
-      resetNetwork(start);
+      resetNetwork(start, name);
     needsreset = false;
     return;
 
   } else {
-    var startID = getNeutralId(start);
+      var startID = getNeutralId(start);
+      console.log(startID);
     startpages.push(startID);
     nodes.add([
-      {id:startID, label:wordwrap(decodeURIComponent(start),20), value:2, level:0,
+      {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
             color: getColor(0), x: 0, y: 0, parent: startID} // Parent is self
     ]);
   }
@@ -96,9 +98,18 @@ function resetNetworkFromInput() {
     return;
   }
 
+
   for (var i=0; i<inputs.length; i++) {
     getPageName(encodeURI(inputs[i]), addStart);
   }
+}
+
+// Reset the network with the content from the input box.
+function resetNetworkFromInputDefault() {
+    // Network should be reset
+    console.log("init default");
+    needsreset = true;
+    getPageName('applications', addStart);
 }
 
 

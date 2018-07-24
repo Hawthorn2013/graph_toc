@@ -73,12 +73,12 @@ function unwrap(text) {
 // Get a "neutral" form of a page name to use as an ID. This is designed to
 // minimize the number of duplicate nodes found in the network.
 function getNeutralId(id) {
-  id = id.toLowerCase(); // Lowercase
-  id = id.replace( /%20/g , "" ); // Remove code for spaces
-  id = id.replace(/[^A-Za-z\d%]/g, ""); // Remove all non-alphanumeric characters
-  if (id[id.length-1] == "s") {
-    id = id.slice(0, -1);
-  }
+  //id = id.toLowerCase(); // Lowercase
+  //id = id.replace( /%20/g , "" ); // Remove code for spaces
+  //id = id.replace(/[^A-Za-z\d%]/g, ""); // Remove all non-alphanumeric characters
+  //if (id[id.length-1] == "s") {
+    //id = id.slice(0, -1);
+  //}
   return id;
 }
 
