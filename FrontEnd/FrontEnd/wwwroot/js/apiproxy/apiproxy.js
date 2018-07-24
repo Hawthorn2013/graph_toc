@@ -116,6 +116,15 @@ var apiproxy = (function () {
         }
         return outputEntities;
     };
+    var makeDefaultEntity = function () {
+        var defaultEntity = {};
+        defaultEntity["id"] = "__default_entity__";
+        defaultEntity["name"] = "Default Root";
+        defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
+        var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users", ];
+        defaultEntity["relation_entities"] = relationEntities;
+        return defaultEntity;
+    }
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
         dictEntities = getAllLevelDictEntities(originEntities);
@@ -140,7 +149,8 @@ var apiproxy = (function () {
     };
     
     var getDefaultEntity = function () {
-        return defaultEntityList;
+        var defaultEntity = makeDefaultEntity();
+        return defaultEntity;
     };
 
     return {
