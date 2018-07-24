@@ -52,6 +52,7 @@ function apiRequest(api, page, onSuccess) {
 
 //Get the name of all pages linked to by a page
 function getSubPages(page, onSuccess) {
+    console.log(apiproxy.getEntity(page));
     onSuccess(apiproxy.getEntity(page)["relation_entities"]);
 }
 
