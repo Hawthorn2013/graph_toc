@@ -97,9 +97,9 @@ var apiproxy = (function () {
             return [currentDictMajorIdEntities, currentDictFullIdEntities];
         };
         var dictTreeEntitiesTmpRes = recursion(originEntities);
-        _dictMajorIdTreeEntities = dictTreeEntitiesTmpRes[0];
-        _dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
-        return [dictMajorIdFlatEntities, dictFullIdFlatEntities];
+        var dictMajorIdTreeEntities = dictTreeEntitiesTmpRes[0];
+        var dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
+        return [dictMajorIdFlatEntities, dictFullIdFlatEntities, dictMajorIdTreeEntities, dictFullIdTreeEntities];
     };
     var getCurrentLevelList = function (entities) {
         var idList = [];
@@ -151,6 +151,8 @@ var apiproxy = (function () {
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
         _dictMajorIdFlatEntities = dictEntitiesTmpRes[0];
         _dictFullIdFlatEntities = dictEntitiesTmpRes[1];
+        _dictMajorIdTreeEntities = dictEntitiesTmpRes[2];
+        _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
         _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
         _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
         _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
