@@ -1,7 +1,7 @@
 var apiproxy = (function () {
     var totalDataEndpoint = "./data/toc2.json";
     var originEntities = [];
-    var entities = {};
+    var outputEntities = {};
     var dictEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
@@ -12,17 +12,8 @@ var apiproxy = (function () {
             return;
         }
         var name = originEntity["name"];
-        if (id == null) {
-            console.warn("Name field not found.");
-        }
         var url = originEntity["url"];
-        if (url == null) {
-            console.warn("Url field not found.");
-        }
         var relationOriginEntities = originEntity["entities"];
-        if (relationOriginEntities == null) {
-            console.warn("Entities field not found.");
-        }
         var relationDictEntities = {};
         for (var i in relationOriginEntities) {
             var relationOriginEntity = relationOriginEntities[i];
@@ -96,28 +87,46 @@ var apiproxy = (function () {
         }
         return idList;
     };
+    var convertDictEntityToOutputEntity = function (dictEntity) {
+        var outputEntity = {};
+        outputEntity["name"] = dictEntity["name"];
+        outputEntity["url"] = dictEntity["url"];
+        var relationEntities = [];
+        for (var relationEntityId in dictEntity["relation_dict_entities"]) {
+            relationEntities.push(relationEntityId);
+        }
+        outputEntity["relation_entities"] = relationEntities;
+        return outputEntity;
+    };
+    var convertDictEntitiesToOutputEntities = function (dictEntities) {
+        var outputEntities = {};
+        for (var id in dictEntities) {
+            var dictEntity = dictEntities[id];
+            var outputEntity = convertDictEntityToOutputEntity(dictEntity);
+            outputEntities[id] = outputEntity;
+        }
+        return outputEntities;
+    };
+    var makeDefaultEntity = function () {
+        var defaultEntity = {};
+        defaultEntity["id"] = "__default_entity__";
+        defaultEntity["name"] = "Default Root";
+        defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
+        var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users", ];
+        defaultEntity["relation_entities"] = relationEntities;
+        return defaultEntity;
+    }
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
         dictEntities = getAllLevelDictEntities(originEntities);
-        for (var id in dictEntities) {
-            var destEntity = dictEntities[id];
-            var finalEntity = {};
-            finalEntity["name"] = destEntity["name"];
-            finalEntity["url"] = destEntity["url"];
-            var relationEntities = [];
-            for (var relationEntityId in destEntity["relation_dict_entities"]) {
-                relationEntities.push(relationEntityId);
-            }
-            finalEntity["relation_entities"] = relationEntities;
-            entities[id] = finalEntity;
-        }
+        outputEntities = convertDictEntitiesToOutputEntities(dictEntities);
         defaultEntityList = getCurrentLevelList(dictEntities);
     });
 
-    for (var entityName in entities) {
+    for (var entityName in outputEntities) {
         var entity = {};
         entity["name"] = entityName;
-        entity["url"] = entities[entityName].url;
+        entity["url"] = outputEntities[entityName].url;
         allEntitiesIdList.push(entity);
     }
 
@@ -126,12 +135,13 @@ var apiproxy = (function () {
     };
     
     var getEntity = function (entityName) {
-        var res = entities[entityName]
+        var res = outputEntities[entityName]
         return res;
     };
     
     var getDefaultEntity = function () {
-        return defaultEntityList;
+        var defaultEntity = makeDefaultEntity();
+        return defaultEntity;
     };
 
     return {
