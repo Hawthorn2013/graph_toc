@@ -166,6 +166,7 @@ var apiproxy = (function () {
         defaultEntity["id"] = defaultEntityId;
         defaultEntity["name"] = "Default";
         defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
+        defaultEntity["methods"] = {};
         var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users", ];
         defaultEntity["relation_entities"] = relationEntities;
         return defaultEntity;
@@ -204,12 +205,8 @@ var apiproxy = (function () {
     };
 
     var getEntityMethods = function (entityId) {
-        if (entityId == defaultEntityId) {
-            methods = {};
-        } else {
-            var outputEntity = outputEntities[entityId]
-            var methods = outputEntity["methods"];
-        }
+        var entity = getEntity(entityId);
+        var methods = entity["methods"];
         return methods;
     };
 
