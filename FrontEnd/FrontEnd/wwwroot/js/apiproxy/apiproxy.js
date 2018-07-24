@@ -1,5 +1,6 @@
 var apiproxy = (function () {
     var _globalLogSwitch = false;
+    var _retuenEntityMethods = true;
     var _totalDataEndpoint = "./data/toc2.json";
     var _originEntities = [];
     var _nextSubIds = {};
@@ -158,11 +159,13 @@ var apiproxy = (function () {
         } else {
             entity = _outputMajorIdEntities[entityId]
         }
+        if (!_retuenEntityMethods) entity["methods"] = {};
         return entity;
     };
     
     var getDefaultEntity = function () {
         var defaultEntity = makeDefaultEntity();
+        if (!_retuenEntityMethods) defaultEntity["methods"] = {};
         return defaultEntity;
     };
 
@@ -177,11 +180,17 @@ var apiproxy = (function () {
         else _globalLogSwitch = false;
     };
 
+    var _setReturnEntityMethods = function (returnEntityMethods) {
+        if (returnEntityMethods) _retuenEntityMethods = true;
+        else _retuenEntityMethods = false;
+    };
+
     return {
         getEntities: getEntities,
         getEntity: getEntity,
         getDefaultEntity: getDefaultEntity,
         getEntityMethods: getEntityMethods,
         setGlobalLogSwitch: setGlobalLogSwitch,
+        _setReturnEntityMethods: _setReturnEntityMethods,
     };
 })();
