@@ -248,10 +248,10 @@ var apiproxy = (function () {
     }
     $.getJSON(totalDataEndpoint, function (data) {
         originEntities = data;
-        dictEntities = getAllLevelDictEntities(originEntities);
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(originEntities);
         _dictMajorIdEntities = dictEntitiesTmpRes[0];
         _dictFullIdEntities = dictEntitiesTmpRes[1];
+        dictEntities = _dictMajorIdEntities;
         outputEntities = convertDictEntitiesToOutputEntities(dictEntities);
         defaultEntityList = getCurrentLevelList(dictEntities);
     });
