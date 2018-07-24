@@ -1,5 +1,5 @@
 var apiproxy = (function () {
-    var totalDataEndpoint = "./data/toc.json";
+    var totalDataEndpoint = "./data/toc2.json";
     var totalData = {};
     var entities = {};
     var destEntities = {};
