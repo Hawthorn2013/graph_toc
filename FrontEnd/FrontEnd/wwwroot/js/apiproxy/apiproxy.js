@@ -2,11 +2,36 @@ var apiproxy = (function () {
     var globalLogSwitch = false;
     var totalDataEndpoint = "./data/toc2.json";
     var originEntities = [];
+    var nextSubIds = {};
     var outputEntities = {};
     var dictEntities = {};
     var allEntitiesIdList = [];
     var defaultEntityList = [];
     var defaultEntityId = "__default__";
+    var getAndUpdateSubId = function (majorId) {
+        if (nextSubIds[majorId] == null) {
+            nextSubIds[majorId] = 0;
+        }
+        var currentOriginId = nextSubIds[majorId];
+        nextSubIds[majorId]++;
+        return majorId + "-" + currentOriginId;
+    };
+    var getFullId = function (majorId, subId) {
+        var fullId = majorId + "-" + subId;
+        return fullId;
+    };
+    var getMajorId = function (fullId) {
+        var pattern = /(^\w+)-(\w+$)/;
+        var tmpRes = pattern.exec(fullId);
+        var majorId = tmpRes[1];
+        return majorId;
+    };
+    var getSubId = function (fullId) {
+        var pattern = /(^\w+)-(\w+$)/;
+        var tmpRes = pattern.exec(fullId);
+        var subId = tmpRes[2];
+        return subId;
+    };
     var convertOriginMethodToDictMethod = function (originMethod) {
         var dictMethod = {};
         var methodName = originMethod["name"];
