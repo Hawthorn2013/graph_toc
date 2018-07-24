@@ -1,4 +1,5 @@
 var apiproxy = (function () {
+    var globalLogSwitch = false;
     var totalDataEndpoint = "./data/toc2.json";
     var originEntities = [];
     var outputEntities = {};
@@ -10,7 +11,9 @@ var apiproxy = (function () {
         var dictMethod = {};
         var methodName = originMethod["name"];
         if (methodName == null) {
-            console.warn("Method name field not found, the method is ignored.");
+            if (globalLogSwitch) {
+                console.warn("Method name field not found, the method is ignored.");
+            }
             return;
         }
         dictMethod["url"] = originMethod["url"];
@@ -19,7 +22,9 @@ var apiproxy = (function () {
     var mergeDictMethod = function (dictMethod1, dictMethod2) {
         if (dictMethod1 == null) return dictMethod2;
         if (dictMethod2 == null) return dictMethod1;
-        console.log("Merge dictMethod conflict, use dictMethod1.");
+        if (globalLogSwitch) {
+            console.log("Merge dictMethod conflict, use dictMethod1.");
+        }
         return dictMethod1;
     };
     var convertOriginMethodsToDictMethods = function (originMethods) {
@@ -36,7 +41,9 @@ var apiproxy = (function () {
     var convertOriginEntityToDictEntity = function (originEntity) {
         var id = originEntity["id"];
         if (id == null) {
-            console.warn("Id field not found, convert originEntity to dictEntity failed.");
+            if (globalLogSwitch) {
+                console.warn("Id field not found, convert originEntity to dictEntity failed.");
+            }
             return;
         }
         var name = originEntity["name"];
@@ -49,7 +56,9 @@ var apiproxy = (function () {
             var relationOriginEntity = relationOriginEntities[i];
             var relationOriginEntityId = relationOriginEntity["id"];
             if (relationOriginEntityId == null) {
-                console.warn("Relation entity id field not found, the entity is ignored.");
+                if (globalLogSwitch) {
+                    console.warn("Relation entity id field not found, the entity is ignored.");
+                }
                 continue;
             }
             relationDictEntities[relationOriginEntityId] = {};
@@ -198,12 +207,18 @@ var apiproxy = (function () {
         var outputEntity = outputEntities[entityId]
         var methods = outputEntity["methods"];
         return methods;
-    }
+    };
+
+    var setGlobalLogSwitch = function (status) {
+        if (status) globalLogSwitch = true;
+        else globalLogSwitch = false;
+    };
 
     return {
         getEntities: getEntities,
         getEntity: getEntity,
         getDefaultEntity: getDefaultEntity,
         getEntityMethods: getEntityMethods,
+        setGlobalLogSwitch: setGlobalLogSwitch,
     };
 })();
