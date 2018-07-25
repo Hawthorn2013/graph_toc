@@ -41,26 +41,69 @@ function makeNetwork() {
 
 // Reset the network to be new each time.
 function resetNetwork(start, name) {
-  if (!initialized) makeNetwork();
-  var startID = getNeutralId(start);
-  startpages = [startID]; // Register the page as an origin node
-  tracenodes = [];
-  traceedges = [];
+    if (!initialized) makeNetwork();
+    document.getElementById("submit").innerHTML = '<i class="icon ion-refresh"> </i>';
+    var startID = getNeutralId(start);
+    var paths = apiproxy.getPaths(startID);
+    console.log(paths);
+    startpages = []; // Register the page as an origin node
+    tracenodes = [];
+    traceedges = [];
+    nodes = new vis.DataSet();
+    edges = new vis.DataSet();
+
+    for (var i = 0; i < paths.length;i++) {
+        var lastNode = "";
+        for (var j = 0; j < paths[i].length; j++) {
+            var ndId = paths[i][j];
+            var ndName = apiproxy.getEntity(ndId)['name'];
+            console.log(ndId);
+            if (lastNode == "") {
+                if (nodes.getIds().indexOf(ndId) == -1) {
+                    startpages.push(ndId)
+                    nodes.add([
+                        {
+                            id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 0,
+                            color: getColor(0), x: 0, y: 0, parent: ndId, isMethod: false, isExpand: false
+                        } // Parent is self
+                    ]);
+                }
+               lastNode = ndId;
+            } else {
+                startpages.push(ndId)
+                if (nodes.getIds().indexOf(ndId) == -1) {
+                    startpages.push(ndId)
+                    nodes.add([
+                        {
+                            id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 4,
+                            color: getColor(0), x: 0, y: 0, parent: lastNode, isMethod: false, isExpand: false
+                        } // Parent is self
+                    ]);
+                }
+                if (!getEdgeConnecting(lastNode, ndId)) { //Don't create duplicate edges in same direction
+                    edges.add([{
+                        from: lastNode, to: ndId, color: getEdgeColor(1),
+                        level: 1, selectionWidth: 2, hoverWidth: 0
+                    }]);
+                }
+                lastNode = ndId;
+
+            }
+        }
+    }
+    data = { nodes: nodes, edges: edges };
+    network.setData(data);
+}
+ 
 
   // Change "go" button to a refresh icon
-  document.getElementById("submit").innerHTML = '<i class="icon ion-refresh"> </i>';
+ 
 
   // -- CREATE NETWORK -- //
   //Make a container
-  nodes = new vis.DataSet([
-    {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
-          color: getColor(0), x: 0, y: 0, parent: startID, isMethod: false, isExpand: false} //Parent is self
-  ]);
-  edges = new vis.DataSet();
+  
   //Put the data in the container
-  data = {nodes:nodes,edges:edges};
-  network.setData(data);
-}
+  
 
 
 // Add a new start node to the map.
@@ -75,7 +118,7 @@ function addStart(start, url) {
 
   } else {
       var startID = getNeutralId(start);
-      console.log(startID);
+      //console.log(startID);
     startpages.push(startID);
     nodes.add([
       {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
@@ -91,7 +134,7 @@ function resetNetworkFromInput() {
   needsreset = true;
   var cf = document.getElementsByClassName("commafield")[0];
   // Items entered.
-  var inputs = getItems(cf);
+    var inputs = getItems(cf);
   // If no input is given, prompt user to enter articles
   if (!inputs[0]) {
     noInputDetected();
