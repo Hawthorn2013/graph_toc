@@ -9,6 +9,7 @@ var apiproxy = (function () {
     var _dictFullIdFlatEntities = {};
     var _dictMajorIdTreeEntities = {};
     var _dictFullIdTreeEntities = {};
+    var _dictDefaultToMajorIdEntityPaths = {};
     var _entityMajorIds = [];
     var _defaultEntityList = [];
     var _defaultEntityId = "__default__";
@@ -51,6 +52,15 @@ var apiproxy = (function () {
     var convertOriginEntitiesToDictEntities = function (originEntities) {
         var dictMajorIdFlatEntities = {};
         var dictFullIdFlatEntities = {};
+        var dictDefaultToMajorIdEntityPaths = {};
+        var addMajorIdPathToPathes = function (majorId, path) {
+            if (dictDefaultToMajorIdEntityPaths[majorId] == null) {
+                dictDefaultToMajorIdEntityPaths[majorId] = [];
+            }
+            var pathCopy = JSON.parse(JSON.stringify(path));
+            dictDefaultToMajorIdEntityPaths[majorId].push(pathCopy);
+        };
+        var majorIdPath = [];
         var recursion = function (originEntities) {
             var currentDictMajorIdEntities = {};
             var currentDictFullIdEntities = {};
@@ -66,7 +76,10 @@ var apiproxy = (function () {
                 var originMethods = originEntity["methods"];
                 var distMethods = convertOriginMethodsToDictMethods(originMethods);
                 var subOriginEntities = originEntity["entities"];
+                majorIdPath.push(id);
+                addMajorIdPathToPathes(id, majorIdPath);
                 var subDictEntitiesTmpRes = recursion(subOriginEntities);
+                majorIdPath.pop();
                 var subDictMajorIdEntities = subDictEntitiesTmpRes[0];
                 var subDictFullIdEntities = subDictEntitiesTmpRes[1];
                 var relationMajorIdEntities = {};
@@ -96,10 +109,13 @@ var apiproxy = (function () {
             }
             return [currentDictMajorIdEntities, currentDictFullIdEntities];
         };
+        majorIdPath.push(_defaultEntityId);
+        addMajorIdPathToPathes(_defaultEntityId, majorIdPath);
         var dictTreeEntitiesTmpRes = recursion(originEntities);
+        majorIdPath.pop();
         var dictMajorIdTreeEntities = dictTreeEntitiesTmpRes[0];
         var dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
-        return [dictMajorIdFlatEntities, dictFullIdFlatEntities, dictMajorIdTreeEntities, dictFullIdTreeEntities];
+        return [dictMajorIdFlatEntities, dictFullIdFlatEntities, dictMajorIdTreeEntities, dictFullIdTreeEntities, dictDefaultToMajorIdEntityPaths];
     };
     var getCurrentLevelList = function (entities) {
         var idList = [];
@@ -153,6 +169,7 @@ var apiproxy = (function () {
         _dictFullIdFlatEntities = dictEntitiesTmpRes[1];
         _dictMajorIdTreeEntities = dictEntitiesTmpRes[2];
         _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
+        _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
         _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
         _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
         _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
@@ -186,17 +203,11 @@ var apiproxy = (function () {
     };
 
     var getPaths = function (entityId) {
-        var drive = [
-            ["_defaultEntityId", "me", "drive"],
-            ["_defaultEntityId", "shares", "list", "drive"],
-            ["_defaultEntityId", "sites", "drive"],
-            ["_defaultEntityId", "users", "drive"],
-        ];
-        if (entityId == "drive") return drive;
-        else return undefined;
+        var paths = _dictDefaultToMajorIdEntityPaths[entityId];
+        return paths;
     };
 
-    var setGlobalLogSwitch = function (status) {
+    var _setGlobalLogSwitch = function (status) {
         if (status) _globalLogSwitch = true;
         else _globalLogSwitch = false;
     };
@@ -212,7 +223,7 @@ var apiproxy = (function () {
         getDefaultEntity: getDefaultEntity,
         getEntityMethods: getEntityMethods,
         getPaths: getPaths,
-        setGlobalLogSwitch: setGlobalLogSwitch,
+        _setGlobalLogSwitch: _setGlobalLogSwitch,
         _setReturnEntityMethods: _setReturnEntityMethods,
     };
 })();
