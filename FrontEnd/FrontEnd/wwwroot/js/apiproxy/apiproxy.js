@@ -2,6 +2,7 @@ var apiproxy = (function () {
     var _defaultTocJsonEndpoint = "./data/toc2.json";
     var _defaultInstance;
     var _buildNewInstance = function (tocJsonEndpoint) {
+        var _initFinished = false;
         var _globalLogSwitch = false;
         var _retuenEntityMethods = true;
         var _tocJsonEndpoint = tocJsonEndpoint;
@@ -165,6 +166,11 @@ var apiproxy = (function () {
             }
             return ids;
         };
+        var waitInitFinished = function () {
+            while (!_initFinished) {
+
+            }
+        }
         $.getJSON(_tocJsonEndpoint, function (data) {
             _originEntities = data;
             var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
@@ -176,13 +182,16 @@ var apiproxy = (function () {
             _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
             _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
             _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
+            _initFinished = true;
         });
 
         var getEntities = function () {
+            waitInitFinished();
             return _entityMajorIds;
         };
 
         var getEntity = function (entityId) {
+            waitInitFinished();
             var entity;
             if (entityId == _defaultEntityId) {
                 entity = makeDefaultEntity();
@@ -194,28 +203,33 @@ var apiproxy = (function () {
         };
 
         var getDefaultEntity = function () {
+            waitInitFinished();
             var defaultEntity = makeDefaultEntity();
             if (!_retuenEntityMethods) defaultEntity["methods"] = {};
             return defaultEntity;
         };
 
         var getEntityMethods = function (entityId) {
+            waitInitFinished();
             var entity = getEntity(entityId);
             var methods = entity["methods"];
             return methods;
         };
 
         var getPaths = function (entityId) {
+            waitInitFinished();
             var paths = _dictDefaultToMajorIdEntityPaths[entityId];
             return paths;
         };
 
         var _setGlobalLogSwitch = function (status) {
+            waitInitFinished();
             if (status) _globalLogSwitch = true;
             else _globalLogSwitch = false;
         };
 
         var _setReturnEntityMethods = function (returnEntityMethods) {
+            waitInitFinished();
             if (returnEntityMethods) _retuenEntityMethods = true;
             else _retuenEntityMethods = false;
         };
