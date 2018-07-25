@@ -1,7 +1,7 @@
 var apiproxy = (function () {
     var _globalLogSwitch = false;
     var _retuenEntityMethods = true;
-    var _totalDataEndpoint = "./data/toc2.json";
+    var _tocJsonEndpoint = "./data/toc2.json";
     var _originEntities = [];
     var _nextSubIds = {};
     var _outputMajorIdEntities = {};
@@ -162,7 +162,7 @@ var apiproxy = (function () {
         }
         return ids;
     };
-    $.getJSON(_totalDataEndpoint, function (data) {
+    $.getJSON(_tocJsonEndpoint, function (data) {
         _originEntities = data;
         var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
         _dictMajorIdFlatEntities = dictEntitiesTmpRes[0];
