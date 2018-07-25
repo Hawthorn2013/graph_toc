@@ -17,6 +17,9 @@ var apiproxy = (function () {
         var _entityMajorIds = [];
         var _defaultEntityList = [];
         var _defaultEntityId = "__default__";
+        var sleep = function (ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        };
         var getAndUpdateSubId = function (majorId) {
             if (_nextSubIds[majorId] == null) {
                 _nextSubIds[majorId] = 0;
@@ -166,32 +169,17 @@ var apiproxy = (function () {
             }
             return ids;
         };
-        var waitInitFinished = function () {
+        var waitInitFinished = async function () {
             while (!_initFinished) {
-
+                await sleep(1000);
             }
         }
-        $.getJSON(_tocJsonEndpoint, function (data) {
-            _originEntities = data;
-            var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
-            _dictMajorIdFlatEntities = dictEntitiesTmpRes[0];
-            _dictFullIdFlatEntities = dictEntitiesTmpRes[1];
-            _dictMajorIdTreeEntities = dictEntitiesTmpRes[2];
-            _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
-            _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
-            _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
-            _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
-            _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
-            _initFinished = true;
-        });
 
         var getEntities = function () {
-            waitInitFinished();
             return _entityMajorIds;
         };
 
         var getEntity = function (entityId) {
-            waitInitFinished();
             var entity;
             if (entityId == _defaultEntityId) {
                 entity = makeDefaultEntity();
@@ -203,36 +191,52 @@ var apiproxy = (function () {
         };
 
         var getDefaultEntity = function () {
-            waitInitFinished();
             var defaultEntity = makeDefaultEntity();
             if (!_retuenEntityMethods) defaultEntity["methods"] = {};
             return defaultEntity;
         };
 
         var getEntityMethods = function (entityId) {
-            waitInitFinished();
             var entity = getEntity(entityId);
             var methods = entity["methods"];
             return methods;
         };
 
         var getPaths = function (entityId) {
-            waitInitFinished();
             var paths = _dictDefaultToMajorIdEntityPaths[entityId];
             return paths;
         };
 
         var _setGlobalLogSwitch = function (status) {
-            waitInitFinished();
             if (status) _globalLogSwitch = true;
             else _globalLogSwitch = false;
         };
 
         var _setReturnEntityMethods = function (returnEntityMethods) {
-            waitInitFinished();
             if (returnEntityMethods) _retuenEntityMethods = true;
             else _retuenEntityMethods = false;
         };
+
+        var parseTocJson = function (data) {
+            _originEntities = data;
+            var dictEntitiesTmpRes = convertOriginEntitiesToDictEntities(_originEntities);
+            _dictMajorIdFlatEntities = dictEntitiesTmpRes[0];
+            _dictFullIdFlatEntities = dictEntitiesTmpRes[1];
+            _dictMajorIdTreeEntities = dictEntitiesTmpRes[2];
+            _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
+            _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
+            _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
+            _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
+            _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
+            _initFinished = true;
+        };
+
+        var tocJson = {};
+        $.ajaxSettings.async = false;
+        $.getJSON(_tocJsonEndpoint, function (data) {
+            tocJson = data;
+        });
+        parseTocJson(tocJson);
 
         return {
             getEntities: getEntities,
