@@ -196,7 +196,7 @@ var apiproxy = (function () {
         else return undefined;
     };
 
-    var setGlobalLogSwitch = function (status) {
+    var _setGlobalLogSwitch = function (status) {
         if (status) _globalLogSwitch = true;
         else _globalLogSwitch = false;
     };
@@ -212,7 +212,7 @@ var apiproxy = (function () {
         getDefaultEntity: getDefaultEntity,
         getEntityMethods: getEntityMethods,
         getPaths: getPaths,
-        setGlobalLogSwitch: setGlobalLogSwitch,
+        _setGlobalLogSwitch: _setGlobalLogSwitch,
         _setReturnEntityMethods: _setReturnEntityMethods,
     };
 })();
