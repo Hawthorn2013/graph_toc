@@ -199,6 +199,20 @@ var apiproxy = (function () {
             return paths;
         };
 
+        var _getFilteredPaths = function (pathNumCondition, entityNumCondition) {
+            var filteredDictDefaultToMajorIdEntityPaths = {};
+            for (var id in _dictDefaultToMajorIdEntityPaths) {
+                var curPaths = _dictDefaultToMajorIdEntityPaths[id];
+                var selectedCurPaths = [];
+                for (var i in curPaths) {
+                    var path = curPaths[i];
+                    if (entityNumCondition(path.length)) selectedCurPaths.push(path);
+                }
+                if (pathNumCondition(selectedCurPaths.length)) filteredDictDefaultToMajorIdEntityPaths[id] = selectedCurPaths;
+            }
+            return filteredDictDefaultToMajorIdEntityPaths;
+        }
+
         var _setGlobalLogSwitch = function (status) {
             if (status) _globalLogSwitch = true;
             else _globalLogSwitch = false;
@@ -238,6 +252,7 @@ var apiproxy = (function () {
             getPaths: getPaths,
             _setGlobalLogSwitch: _setGlobalLogSwitch,
             _setReturnEntityMethods: _setReturnEntityMethods,
+            _getFilteredPaths: _getFilteredPaths,
         };
     };
     _defaultInstance = new _buildNewInstance(_defaultTocJsonEndpoint);
