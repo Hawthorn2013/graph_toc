@@ -160,13 +160,6 @@ var apiproxy = (function () {
             defaultEntity["relation_entities"] = relationEntities;
             return defaultEntity;
         }
-        var getDictEntityIds = function (dictEntities) {
-            var ids = [];
-            for (var id in dictEntities) {
-                ids.push(id);
-            }
-            return ids;
-        };
 
         var getEntities = function () {
             return _entityMajorIds;
@@ -233,7 +226,7 @@ var apiproxy = (function () {
             _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
             _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
             _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
-            _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
+            _entityMajorIds = getCurrentLevelList(_dictMajorIdFlatEntities);
             _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
             _initFinished = true;
         };
