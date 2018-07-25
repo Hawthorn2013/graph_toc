@@ -90,7 +90,7 @@ function resetNetwork(start, name) {
                     }
                    
                 }
-                if (!getEdgeConnecting(lastNode, ndId)) { //Don't create duplicate edges in same direction
+                if (!getEdgeConnecting(lastNode, ndId) && lastNode!=ndId) { //Don't create duplicate edges in same direction
                     edges.add([{
                         from: lastNode, to: ndId, color: getEdgeColor(1),
                         level: 1, selectionWidth: 2, hoverWidth: 0
@@ -152,7 +152,7 @@ function resetNetworkFromInput() {
   }
 
 
-  for (var i=0; i<inputs.length; i++) {
+  for (var i=0; i<1; i++) {
     getPageName(encodeURI(inputs[i]), addStart);
   }
 }
