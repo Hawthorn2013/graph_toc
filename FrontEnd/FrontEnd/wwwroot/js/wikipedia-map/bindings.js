@@ -36,7 +36,8 @@ function mobileTraceEvent (params) { // Trace back a node (with event handler)
     //The node clicked
     var page = params.nodes[0];
     //Highlight in blue all nodes tracing back to central node
-    traceBack(page);
+      traceBack(page);
+      console.log("ttt");
   } else {
     resetProperties();
   }

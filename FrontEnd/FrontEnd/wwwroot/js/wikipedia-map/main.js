@@ -77,7 +77,7 @@ function resetNetwork(start, name) {
                         nodes.add([
                             {
                                 id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 4,
-                                color: getAimColor(0), x: 0, y: 0, parent: lastNode, isDefault: false, isAim: true, isMethod: false
+                                color: getAimColor(0), x: 300, y: 0, fixed: true,parent: lastNode, isDefault: false, isAim: true, isMethod: false
                             } // Parent is self
                         ]);
                     } else {
