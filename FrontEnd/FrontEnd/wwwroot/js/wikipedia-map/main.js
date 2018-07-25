@@ -45,7 +45,7 @@ function resetNetwork(start, name) {
     document.getElementById("submit").innerHTML = '<i class="icon ion-refresh"> </i>';
     var startID = getNeutralId(start);
     var paths = apiproxy.getPaths(startID);
-    
+    console.log(paths);
     startpages = []; // Register the page as an origin node
     tracenodes = [];
     traceedges = [];
@@ -135,7 +135,6 @@ function resetNetworkFromInput() {
   var cf = document.getElementsByClassName("commafield")[0];
   // Items entered.
     var inputs = getItems(cf);
-    inputs = ['drive'];
   // If no input is given, prompt user to enter articles
   if (!inputs[0]) {
     noInputDetected();

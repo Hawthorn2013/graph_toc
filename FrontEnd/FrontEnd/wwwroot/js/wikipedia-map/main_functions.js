@@ -22,26 +22,26 @@ function expandNodeCallback(page,data) {
   var newedges = [];
   // Where new nodes should be spawned
     var nodeSpawn = getSpawnPosition(page);
-    //create methods objects
-    for (var key in methods) {
-        var methodId = key + '__' + page;
-        var methodName = key;
-        var methodUrl = methods[key]['url'];
-        if (nodes.getIds().indexOf(methodId) == -1) {
-        subnodes.push({
-            id: methodId, label: wordwrap(decodeURIComponent(methodName), 15), value: 1,
-            level: level, color: getMethodColor(level), parent: page,
-            x: nodeSpawn[0], y: nodeSpawn[1], url: methodUrl, isMethod: true
-            }); //Add node
-        }
+    ////create methods objects
+    //for (var key in methods) {
+    //    var methodId = key + '__' + page;
+    //    var methodName = key;
+    //    var methodUrl = methods[key]['url'];
+    //    if (nodes.getIds().indexOf(methodId) == -1) {
+    //    subnodes.push({
+    //        id: methodId, label: wordwrap(decodeURIComponent(methodName), 15), value: 1,
+    //        level: level, color: getMethodColor(level), parent: page,
+    //        x: nodeSpawn[0], y: nodeSpawn[1], url: methodUrl, isMethod: true
+    //        }); //Add node
+    //    }
 
-        if (!getEdgeConnecting(page, methodId)) { //Don't create duplicate edges in same direction
-            newedges.push({
-                from: page, to: methodId, color: getEdgeColor(level),
-                level: level, selectionWidth: 2, hoverWidth: 0
-            });
-        }
-    }
+    //    if (!getEdgeConnecting(page, methodId)) { //Don't create duplicate edges in same direction
+    //        newedges.push({
+    //            from: page, to: methodId, color: getEdgeColor(level),
+    //            level: level, selectionWidth: 2, hoverWidth: 0
+    //        });
+    //    }
+    //}
 
   //Create node objects
   for (var i=0; i<subpages.length; i++) {
