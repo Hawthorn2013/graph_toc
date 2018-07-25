@@ -122,12 +122,12 @@ var apiproxy = (function () {
             var dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
             return [dictMajorIdFlatEntities, dictFullIdFlatEntities, dictMajorIdTreeEntities, dictFullIdTreeEntities, dictDefaultToMajorIdEntityPaths];
         };
-        var getCurrentLevelList = function (entities) {
-            var idList = [];
-            for (var id in entities) {
-                idList.push(id);
+        var getDictEntitiesCurrentLevelIdsList = function (dictEntities) {
+            var ids = [];
+            for (var id in dictEntities) {
+                ids.push(id);
             }
-            return idList;
+            return ids;
         };
         var convertDictEntityToOutputEntity = function (dictEntity) {
             var outputEntity = {};
@@ -226,8 +226,8 @@ var apiproxy = (function () {
             _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
             _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
             _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
-            _entityMajorIds = getCurrentLevelList(_dictMajorIdFlatEntities);
-            _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
+            _entityMajorIds = getDictEntitiesCurrentLevelIdsList(_dictMajorIdFlatEntities);
+            _defaultEntityList = getDictEntitiesCurrentLevelIdsList(_dictMajorIdFlatEntities);
             _initFinished = true;
         };
 
