@@ -17,9 +17,6 @@ var apiproxy = (function () {
         var _entityMajorIds = [];
         var _defaultEntityList = [];
         var _defaultEntityId = "__default__";
-        var sleep = function (ms) {
-            return new Promise(resolve => setTimeout(resolve, ms));
-        };
         var getAndUpdateSubId = function (majorId) {
             if (_nextSubIds[majorId] == null) {
                 _nextSubIds[majorId] = 0;
@@ -169,11 +166,6 @@ var apiproxy = (function () {
             }
             return ids;
         };
-        var waitInitFinished = async function () {
-            while (!_initFinished) {
-                await sleep(1000);
-            }
-        }
 
         var getEntities = function () {
             return _entityMajorIds;
