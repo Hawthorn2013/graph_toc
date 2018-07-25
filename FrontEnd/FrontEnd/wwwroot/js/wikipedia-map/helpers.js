@@ -38,7 +38,7 @@ function lightenHex(hex,percent) {
 function getColor(level) {
   return lightenHex("#03A9F4",5*level); // Gets 5% lighter for each level
 }
-// Get the color for a node, lighten a blue based on level. Subtle.
+// Get the color for a method, lighten a pink based on level. Subtle.
 function getMethodColor(level) {
     return lightenHex("#FFB6C1", 5 * level); // Gets 5% lighter for each level
 }
