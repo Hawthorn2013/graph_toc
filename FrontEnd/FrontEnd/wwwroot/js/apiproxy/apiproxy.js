@@ -17,6 +17,7 @@ var apiproxy = (function () {
         var _entityMajorIds = [];
         var _defaultEntityList = [];
         var _defaultEntityId = "__default__";
+        var _defaultEntities = {};
         var getAndUpdateSubId = function (majorId) {
             if (_nextSubIds[majorId] == null) {
                 _nextSubIds[majorId] = 0;
@@ -155,7 +156,7 @@ var apiproxy = (function () {
             defaultEntity["name"] = "Graph API";
             defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
             defaultEntity["methods"] = {};
-            var relationEntities = ["groups", "me", "users",];
+            var relationEntities = _defaultEntities[_defaultEntityId];
             defaultEntity["relation_entities"] = relationEntities;
             return defaultEntity;
         }
@@ -243,6 +244,8 @@ var apiproxy = (function () {
             tocJson = data;
         });
         parseTocJson(tocJson);
+        _defaultEntities["__default__"] = ["groups", "me", "users",];
+        _defaultEntities["__default_all_top_level__"] = _entityMajorIds;
 
         return {
             getEntities: getEntities,
