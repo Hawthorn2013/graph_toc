@@ -1,5 +1,5 @@
 var apiproxy = (function () {
-    var _defaultTocJsonEndpoint = "./data/toc2.json";
+    var _defaultTocJsonEndpoint = "./data/toc3.json";
     var _defaultInstance;
     var _buildNewInstance = function (tocJsonEndpoint) {
         var _initFinished = false;
@@ -155,7 +155,7 @@ var apiproxy = (function () {
             defaultEntity["name"] = "Default";
             defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
             defaultEntity["methods"] = {};
-            var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users",];
+            var relationEntities = ["groups", "me", "users",];
             defaultEntity["relation_entities"] = relationEntities;
             return defaultEntity;
         }
