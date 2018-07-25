@@ -10,6 +10,17 @@ function expandEvent (params) { // Expand a node (with event handler)
       if (!nodes.get(nodeId).isMethod) {
           expandNode(nodeId);
       } 
+      // open 
+      var id = nodes.get(nodeId).id;
+      var url;
+      if (nodes.get(nodeId).isMethod) {
+          url = nodes.get(nodeId).url;
+      } else {
+          url = apiproxy.getEntity(id)["url"];
+      }
+
+      console.log("url----->" + url);
+      window.open(url, '_blank');
           
       //} else {
          // nodes.update({ id: nodeId, isExpand: false });
