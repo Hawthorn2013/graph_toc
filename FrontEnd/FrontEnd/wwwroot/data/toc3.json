@@ -5558,6 +5558,149 @@
     "name": "Me",
     "entities": [
       {
+        "id": "calendar",
+        "name": "Calendar",
+        "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/resources/microsoft.graph.calendar?view=graph-rest-beta&branch=master",
+        "entities": [
+          {
+            "id": "calendarView",
+            "name": "Calendar view",
+            "methods": [
+              {
+                "name": "Create attachments",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/createattachments?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Create extensions",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/createextensions?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Create multi value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/createmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Create single value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/createsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get attachments",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getattachments?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get calendar",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getcalendar?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get extensions",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getextensions?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get instances",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getinstances?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get multi value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Get single value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/getsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "List attachments",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/listattachments?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "List extensions",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/listextensions?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "List instances",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/listinstances?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "List multi value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/listmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "List single value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/listsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Update extensions",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/updateextensions?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Update multi value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/updatemultivalueextendedproperties?view=graph-rest-beta&branch=master"
+              },
+              {
+                "name": "Update single value extended properties",
+                "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/calendarview/updatesinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+              }
+            ]
+          }
+        ],
+        "methods": [
+          {
+            "name": "Create events",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/createevents?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Create multi value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/createmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Create single value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/createsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Get calendar view",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/getcalendarview?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Get events",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/getevents?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Get multi value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/getmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Get single value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/getsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "List calendar view",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/listcalendarview?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "List events",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/listevents?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "List multi value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/listmultivalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "List single value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/listsinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Update events",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/updateevents?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Update multi value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/updatemultivalueextendedproperties?view=graph-rest-beta&branch=master"
+          },
+          {
+            "name": "Update single value extended properties",
+            "url": "https://review.docs.microsoft.com/en-us/rest/api/msgraph/me/calendar/updatesinglevalueextendedproperties?view=graph-rest-beta&branch=master"
+          }
+        ]
+      },
+      {
         "id": "devices",
         "name": "Devices",
         "entities": [
