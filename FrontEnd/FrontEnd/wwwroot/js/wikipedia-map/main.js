@@ -40,10 +40,9 @@ function makeNetwork() {
 
 
 // Reset the network to be new each time.
-function resetNetwork(start, name) {
+function resetNetwork(targetId, targetName) {
   if (!initialized) makeNetwork();
-  var startID = getNeutralId(start);
-  startpages = [startID]; // Register the page as an origin node
+  startpages = [targetId]; // Register the page as an origin node
   tracenodes = [];
   traceedges = [];
 
@@ -51,10 +50,12 @@ function resetNetwork(start, name) {
   document.getElementById("submit").innerHTML = '<i class="icon ion-refresh"> </i>';
 
   // -- CREATE NETWORK -- //
+
   //Make a container
   nodes = new vis.DataSet([
-    {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
-          color: getColor(0), x: 0, y: 0, parent: startID, isMethod: false, isExpand: false} //Parent is self
+      {
+          id: targetId, label: wordwrap(decodeURIComponent(targetName),20), value:2, level:0,
+          color: getColor(0), x: 0, y: 0, parent: targetId, isMethod: false, isExpand: false} //Parent is self
   ]);
   edges = new vis.DataSet();
   //Put the data in the container
