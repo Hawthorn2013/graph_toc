@@ -185,6 +185,17 @@ var apiproxy = (function () {
         return methods;
     };
 
+    var getPaths = function (entityId) {
+        var drive = [
+            ["_defaultEntityId", "me", "drive"],
+            ["_defaultEntityId", "shares", "list", "drive"],
+            ["_defaultEntityId", "sites", "drive"],
+            ["_defaultEntityId", "users", "drive"],
+        ];
+        if (entityId == "drive") return drive;
+        else return undefined;
+    };
+
     var setGlobalLogSwitch = function (status) {
         if (status) _globalLogSwitch = true;
         else _globalLogSwitch = false;
@@ -200,6 +211,7 @@ var apiproxy = (function () {
         getEntity: getEntity,
         getDefaultEntity: getDefaultEntity,
         getEntityMethods: getEntityMethods,
+        getPaths: getPaths,
         setGlobalLogSwitch: setGlobalLogSwitch,
         _setReturnEntityMethods: _setReturnEntityMethods,
     };
