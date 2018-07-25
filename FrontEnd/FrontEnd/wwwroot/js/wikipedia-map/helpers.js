@@ -42,6 +42,14 @@ function getColor(level) {
 function getMethodColor(level) {
     return lightenHex("#FFB6C1", 5 * level); // Gets 5% lighter for each level
 }
+// Get the color for a method, lighten a pink based on level. Subtle.
+function getDefaultColor(level) {
+    return lightenHex("#90EE90", 5 * level); // Gets 5% lighter for each level
+}
+// Get the color for a method, lighten a pink based on level. Subtle.
+function getAimColor(level) {
+    return lightenHex("#FFA500", 5 * level); // Gets 5% lighter for each level
+}
 // Get the highlighted color for a node, lighten a yellow based on level. Subtle.
 function getYellowColor(level) {
   return lightenHex("#FFC107",5*level); // Gets 5% lighter for each level
@@ -106,11 +114,20 @@ function colorNodes(ns, color) {
 
     for (var i = 0; i < ns.length; i++) {
         var colorFunc
-        if (ns[i]['isMethod']) {
-            colorFunc = color ? getYellowColor : getMethodColor;
+        if (ns[i]['isDefault']) {
+            colorFunc = color ? getYellowColor : getDefaultColor;
         } else {
-            colorFunc = color ? getYellowColor : getColor;
+            if (ns[i]['isAim']) {
+                colorFunc = color ? getYellowColor : getAimColor;
+            } else {
+                if (ns[i]['isMethod']) {
+                    colorFunc = color ? getYellowColor : getMethodColor;
+                } else {
+                    colorFunc = color ? getYellowColor : getColor;
+                }
+            }
         }
+        
         
     ns[i].color=colorFunc(ns[i].level);
     // Prevent snapping

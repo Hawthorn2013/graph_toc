@@ -31,7 +31,7 @@ function expandNodeCallback(page,data) {
     //    subnodes.push({
     //        id: methodId, label: wordwrap(decodeURIComponent(methodName), 15), value: 1,
     //        level: level, color: getMethodColor(level), parent: page,
-    //        x: nodeSpawn[0], y: nodeSpawn[1], url: methodUrl, isMethod: true
+    //        x: nodeSpawn[0], y: nodeSpawn[1], url: methodUrl, isDefault: false, isAim: false,isMethod: true
     //        }); //Add node
     //    }
 
@@ -53,7 +53,7 @@ function expandNodeCallback(page,data) {
         subnodes.push({
             id: subpageID, label: wordwrap(decodeURIComponent(subpageName),15), value:1,
                        level:level, color:getColor(level), parent:page,
-            x: nodeSpawn[0], y: nodeSpawn[1], isMethod: false}); //Add node
+            x: nodeSpawn[0], y: nodeSpawn[1], isDefault: false, isAim: false,isMethod: false}); //Add node
     }
 
     if (!getEdgeConnecting(page, subpageID)) { //Don't create duplicate edges in same direction

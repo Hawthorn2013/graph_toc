@@ -57,14 +57,14 @@ function resetNetwork(start, name) {
         for (var j = 0; j < paths[i].length; j++) {
             var ndId = paths[i][j];
             var ndName = apiproxy.getEntity(ndId)['name'];
-            console.log(ndId);
+            var isAim = (ndId == startID);
             if (lastNode == "") {
                 if (nodes.getIds().indexOf(ndId) == -1) {
                     startpages.push(ndId)
                     nodes.add([
                         {
                             id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 0,
-                            color: getColor(0), x: 0, y: 0, parent: ndId, isMethod: false, isExpand: false
+                            color: getDefaultColor(0), x: 0, y: 0, parent: ndId, isDefault: true, isAim: isAim, isMethod: false
                         } // Parent is self
                     ]);
                 }
@@ -73,12 +73,22 @@ function resetNetwork(start, name) {
                 startpages.push(ndId)
                 if (nodes.getIds().indexOf(ndId) == -1) {
                     startpages.push(ndId)
-                    nodes.add([
-                        {
-                            id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 4,
-                            color: getColor(0), x: 0, y: 0, parent: lastNode, isMethod: false, isExpand: false
-                        } // Parent is self
-                    ]);
+                    if (isAim) {
+                        nodes.add([
+                            {
+                                id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 4,
+                                color: getAimColor(0), x: 0, y: 0, parent: lastNode, isDefault: false, isAim: true, isMethod: false
+                            } // Parent is self
+                        ]);
+                    } else {
+                        nodes.add([
+                            {
+                                id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 4,
+                                color: getColor(0), x: 0, y: 0, parent: lastNode, isDefault: false, isAim: false, isMethod: false
+                            } // Parent is self
+                        ]);
+                    }
+                   
                 }
                 if (!getEdgeConnecting(lastNode, ndId)) { //Don't create duplicate edges in same direction
                     edges.add([{
@@ -122,7 +132,7 @@ function addStart(start, url) {
     startpages.push(startID);
     nodes.add([
       {id:startID, label:wordwrap(decodeURIComponent(name),20), value:2, level:0,
-            color: getColor(0), x: 0, y: 0, parent: startID, isMethod:false, isExpand: false} // Parent is self
+            color: getColor(0), x: 0, y: 0, parent: startID, isDefault: false, isAim: (ndId == startID),isMethod:false, isExpand: false} // Parent is self
     ]);
   }
 }
