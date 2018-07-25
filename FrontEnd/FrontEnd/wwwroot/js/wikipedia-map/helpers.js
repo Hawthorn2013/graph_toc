@@ -48,7 +48,7 @@ function getDefaultColor(level) {
 }
 // Get the color for a method, lighten a pink based on level. Subtle.
 function getAimColor(level) {
-    return lightenHex("#FFA500", 5 * level); // Gets 5% lighter for each level
+    return lightenHex("#8B4513", 5 * level); // Gets 5% lighter for each level
 }
 // Get the highlighted color for a node, lighten a yellow based on level. Subtle.
 function getYellowColor(level) {

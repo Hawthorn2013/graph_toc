@@ -64,7 +64,7 @@ function resetNetwork(start, name) {
                     nodes.add([
                         {
                             id: ndId, label: wordwrap(decodeURIComponent(ndName), 20), value: 2, level: 0,
-                            color: getDefaultColor(0), x: 0, y: 0, parent: ndId, isDefault: true, isAim: isAim, isMethod: false
+                            color: getDefaultColor(0), x: 0, y: 0, fixed: true,parent: ndId, isDefault: true, isAim: isAim, isMethod: false
                         } // Parent is self
                     ]);
                 }
@@ -93,7 +93,7 @@ function resetNetwork(start, name) {
                 if (!getEdgeConnecting(lastNode, ndId) && lastNode!=ndId) { //Don't create duplicate edges in same direction
                     edges.add([{
                         from: lastNode, to: ndId, color: getEdgeColor(1),
-                        level: 1, selectionWidth: 2, hoverWidth: 0
+                        level: 1, selectionWidth: 2, hoverWidth: 0,arrows:'to'
                     }]);
                 }
                 lastNode = ndId;
