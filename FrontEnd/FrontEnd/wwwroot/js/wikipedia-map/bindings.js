@@ -73,7 +73,10 @@ function bindNetwork(){
   }
 
   //Bind double-click to open page
-  network.on("doubleClick", openPageEvent);
+    network.on("doubleClick", openPageEvent);
+    network.on("selectEdge", function (params) {
+        console.log(params);
+    });
 }
 
 function bind() {
