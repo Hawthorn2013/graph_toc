@@ -1,5 +1,5 @@
 var apiproxy = (function () {
-    var _defaultTocJsonEndpoint = "./data/toc2.json";
+    var _defaultTocJsonEndpoint = "./data/toc3.json";
     var _defaultInstance;
     var _buildNewInstance = function (tocJsonEndpoint) {
         var _initFinished = false;
@@ -17,6 +17,7 @@ var apiproxy = (function () {
         var _entityMajorIds = [];
         var _defaultEntityList = [];
         var _defaultEntityId = "__default__";
+        var _defaultEntities = {};
         var getAndUpdateSubId = function (majorId) {
             if (_nextSubIds[majorId] == null) {
                 _nextSubIds[majorId] = 0;
@@ -121,12 +122,12 @@ var apiproxy = (function () {
             var dictFullIdTreeEntities = dictTreeEntitiesTmpRes[1];
             return [dictMajorIdFlatEntities, dictFullIdFlatEntities, dictMajorIdTreeEntities, dictFullIdTreeEntities, dictDefaultToMajorIdEntityPaths];
         };
-        var getCurrentLevelList = function (entities) {
-            var idList = [];
-            for (var id in entities) {
-                idList.push(id);
+        var getDictEntitiesCurrentLevelIdsList = function (dictEntities) {
+            var ids = [];
+            for (var id in dictEntities) {
+                ids.push(id);
             }
-            return idList;
+            return ids;
         };
         var convertDictEntityToOutputEntity = function (dictEntity) {
             var outputEntity = {};
@@ -152,20 +153,13 @@ var apiproxy = (function () {
         var makeDefaultEntity = function () {
             var defaultEntity = {};
             defaultEntity["id"] = _defaultEntityId;
-            defaultEntity["name"] = "Default";
+            defaultEntity["name"] = "Graph API";
             defaultEntity["url"] = "https://developer.microsoft.com/zh-cn/graph/docs/concepts/overview";
             defaultEntity["methods"] = {};
-            var relationEntities = ["applications", "channels", "contacts", "devices", "domains", "settings", "shares", "sites", "subscriptions", "team", "users",];
+            var relationEntities = _defaultEntities[_defaultEntityId];
             defaultEntity["relation_entities"] = relationEntities;
             return defaultEntity;
         }
-        var getDictEntityIds = function (dictEntities) {
-            var ids = [];
-            for (var id in dictEntities) {
-                ids.push(id);
-            }
-            return ids;
-        };
 
         var getEntities = function () {
             return _entityMajorIds;
@@ -199,6 +193,20 @@ var apiproxy = (function () {
             return paths;
         };
 
+        var _getFilteredPaths = function (pathNumCondition, entityNumCondition) {
+            var filteredDictDefaultToMajorIdEntityPaths = {};
+            for (var id in _dictDefaultToMajorIdEntityPaths) {
+                var curPaths = _dictDefaultToMajorIdEntityPaths[id];
+                var selectedCurPaths = [];
+                for (var i in curPaths) {
+                    var path = curPaths[i];
+                    if (entityNumCondition(path.length)) selectedCurPaths.push(path);
+                }
+                if (pathNumCondition(selectedCurPaths.length)) filteredDictDefaultToMajorIdEntityPaths[id] = selectedCurPaths;
+            }
+            return filteredDictDefaultToMajorIdEntityPaths;
+        }
+
         var _setGlobalLogSwitch = function (status) {
             if (status) _globalLogSwitch = true;
             else _globalLogSwitch = false;
@@ -218,8 +226,8 @@ var apiproxy = (function () {
             _dictFullIdTreeEntities = dictEntitiesTmpRes[3];
             _dictDefaultToMajorIdEntityPaths = dictEntitiesTmpRes[4];
             _outputMajorIdEntities = convertDictEntitiesToOutputEntities(_dictMajorIdFlatEntities);
-            _entityMajorIds = getDictEntityIds(_dictMajorIdFlatEntities);
-            _defaultEntityList = getCurrentLevelList(_dictMajorIdFlatEntities);
+            _entityMajorIds = getDictEntitiesCurrentLevelIdsList(_dictMajorIdFlatEntities);
+            _defaultEntityList = getDictEntitiesCurrentLevelIdsList(_dictMajorIdFlatEntities);
             _initFinished = true;
         };
 
@@ -229,6 +237,8 @@ var apiproxy = (function () {
             tocJson = data;
         });
         parseTocJson(tocJson);
+        _defaultEntities["__default__"] = ["groups", "me", "users",];
+        _defaultEntities["__default_all_top_level__"] = _entityMajorIds;
 
         return {
             getEntities: getEntities,
@@ -238,6 +248,7 @@ var apiproxy = (function () {
             getPaths: getPaths,
             _setGlobalLogSwitch: _setGlobalLogSwitch,
             _setReturnEntityMethods: _setReturnEntityMethods,
+            _getFilteredPaths: _getFilteredPaths,
         };
     };
     _defaultInstance = new _buildNewInstance(_defaultTocJsonEndpoint);
