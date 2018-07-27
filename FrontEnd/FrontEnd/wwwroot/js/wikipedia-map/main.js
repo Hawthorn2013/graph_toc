@@ -55,11 +55,11 @@ function resetNetwork(start, name) {
     for (var i = 0; i < paths.length; i++) {
         var lastNode = "";
         for (var j = 0; j < paths[i].length; j++) {
+          //  var nnn = paths[i][j];
             addNodeAndEdge(paths[i][j], lastNode);
             lastNode = paths[i][j];
         }
     }
-    addNodeAndEdge(startID, "");
     //for (var i = 0; i < paths.length;i++) {
     //    var lastNode = "";
     //    for (var j = 0; j < paths[i].length; j++) {
@@ -124,9 +124,9 @@ function addNodeAndEdge(nodeId, parentId) {
             var nodeName = apiproxy.getEntity(nodeId)['name'];
             nodes.add([
                 {
-                    parents: [],
+                    parents: [nodeId],
                     id: nodeId, label: wordwrap(decodeURIComponent(nodeName), 20), value: 2, level: 0,
-                    color: getDefaultColor(0), x: 0, y: 0, fixed: true, parent: nodeId, isDefault: true, isAim: false, isMethod: false
+                    color: getDefaultColor(0), x: 0, y: 0, fixed: true, parent: nodeId, isDefault: true, isAim: false, isMethod: false, isExpand: false
                 } // Parent is self
             ]);
         }
@@ -140,7 +140,7 @@ function addNodeAndEdge(nodeId, parentId) {
                 {
                     parents: [parentId],
                     id: nodeId, label: wordwrap(decodeURIComponent(nodeName), 20), value: 2, level: 0,
-                    color: getColor(0), x: 0, y: 0, parent: parentId, isDefault: false, isAim: false, isMethod: false
+                    color: getColor(0), x: 0, y: 0, parent: parentId, isDefault: false, isAim: false, isMethod: false,isExpand: false
                 }
             ]);
         } else {

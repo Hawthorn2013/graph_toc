@@ -8,13 +8,19 @@ var lastChoosePath = [];
 function expandEvent(params) { // Expand a node (with event handler)
     if (params.nodes.length) { //Did the click occur on a node?
         var nodeId = params.nodes[0]; //The id of the node clicked
-        //if (!nodes.get(nodeId).isExpand) {
-        //nodes.update({ id: nodeId, isExpand: true });
         console.log("Node click");
-        //console.log(nodes.get(nodeId));
-        if (!nodes.get(nodeId).isMethod) {
-            expandNode(nodeId);
-        }
+        console.log(nodes.get(nodeId))
+        nd = nodes.get(nodeId);
+        if (!nd.isExpand) {
+            //nodes.update({ id: nodeId, isExpand: true });
+
+            if (!nd.isMethod) {
+                console.log("Expand");
+                expandNode(nodeId);
+            }
+            nd.isExpand = true;
+            nodes.update(nd);
+        } 
         //// open 
         //var id = nodes.get(nodeId).id;
         //var url;
@@ -102,7 +108,7 @@ function onCilck(params) {
 // show the api on diffient paths
 function edgeTraceBack(params) {
     console.log("Edge click");
-    //console.log(edges.get(params.edges[0]));
+    console.log(edges.get(params.edges[0]));
     var edgeId = params.edges[0];
     var paths = getAPIPaths(edgeId);
     var startNode = [edges.get(edgeId).from];
@@ -170,7 +176,11 @@ function unHighlightPath(path) {
             colorNode(nodes.get(path[i]), 0);
         } else {
            
-            colorEdge(edges.get(path[i]), 0);
+            if (i == 1) {
+                colorEdge(edges.get(path[i]), 0, 1);
+            } else {
+                colorEdge(edges.get(path[i]), 0, 1);
+            }
         }
     }
 }
@@ -215,8 +225,11 @@ function getAPIPaths(edgeId) {
         var paths = [[edgeId, daId]];
         return paths;
     } else {
+        console.log(edges.get(edgeId));
         var nodeId = edges.get(edgeId).from;
         var node = nodes.get(nodeId);
+        console.log(nodeId);
+        console.log(node);
         var parents = node.parents;
         var tempPath = [edgeId, nodeId];
         var paths = [];
