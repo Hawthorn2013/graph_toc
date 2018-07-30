@@ -50,6 +50,9 @@ function resetNetwork(start, name) {
     startpages = []; // Register the page as an origin node
     tracenodes = [];
     traceedges = [];
+    nowClickEdge = "";
+    nowClickEdgePathIndex = 0;
+    lastChoosePath = [];
     nodes = new vis.DataSet();
     edges = new vis.DataSet();
     for (var i = 0; i < paths.length; i++) {
@@ -182,23 +185,10 @@ function getEdgeId(parentId, nodeId) {
 function addStart(start, url) {
     var name = apiproxy.getEntity(start)['name'];
 
-    if (needsreset) {
         // Delete everything only for the first call to addStart by tracking needsreset
         resetNetwork(start, name);
         needsreset = false;
         return;
-
-    } else {
-        var startID = getNeutralId(start);
-        //console.log(startID);
-        startpages.push(startID);
-        nodes.add([
-            {
-                id: startID, label: wordwrap(decodeURIComponent(name), 20), value: 2, level: 0,
-                color: getColor(0), x: 0, y: 0, parent: startID, isDefault: false, isAim: (ndId == startID), isMethod: false, isExpand: false
-            } // Parent is self
-        ]);
-    }
 }
 
 

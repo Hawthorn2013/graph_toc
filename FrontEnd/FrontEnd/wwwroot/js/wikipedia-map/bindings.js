@@ -111,10 +111,11 @@ function edgeTraceBack(params) {
     console.log(edges.get(params.edges[0]));
     var edgeId = params.edges[0];
     var paths = getAPIPaths(edgeId);
-    var startNode = [edges.get(edgeId).from];
+    var startNode = [edges.get(edgeId).to];
     // add start node
     for (var i = 0; i < paths.length; i++) {
         paths[i] = startNode.concat(paths[i]);
+        paths[i].reverse();
     }
     console.log(paths);
     if (nowClickEdge == edgeId) {
@@ -143,7 +144,7 @@ function edgeTraceBack(params) {
 function showApi(path) {
     var apiLog = document.getElementById('apiLog');
     var apiUrl = "https://graph.microsoft.coml";
-    for (var i = 0; i < path.length -1; i++) {
+    for (var i = 1; i < path.length -1; i++) {
         if (i % 2 == 0) {
             apiUrl = apiUrl + '/' + path[i];
         }
@@ -158,7 +159,7 @@ function highlightPath(path) {
             colorNode(nodes.get(path[i]), 1);
         } else {
             // first line need thin
-            if (i == 1) {
+            if (i == path.length - 2) {
                 colorEdge(edges.get(path[i]), 1, 1);
             } else {
                 colorEdge(edges.get(path[i]), 1, 3);
